@@ -1,0 +1,427 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Criar conta | CONVIDA</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="{% static 'css/usuarios/cadastro.css' %}"
+    >
+</head>
+
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <a
+            href="/"
+            class="logo"
+        >
+            CONVIDA<span>.</span>
+        </a>
+
+
+        <a
+            href="{% url 'login' %}"
+            class="login-link"
+        >
+            Já tenho uma conta
+        </a>
+
+    </header>
+
+
+    <!-- MAIN -->
+
+    <main class="page">
+
+        <div class="register-wrapper">
+
+
+            <!-- INTRODUÇÃO -->
+
+            <section class="intro">
+
+                <div class="eyebrow">
+                    Bem-vindo ao CONVIDA
+                </div>
+
+
+                <h1>
+                    Crie momentos
+                    <span>inesquecíveis.</span>
+                </h1>
+
+
+                <p>
+                    Crie convites digitais elegantes,
+                    personalize cada detalhe e
+                    compartilhe momentos especiais
+                    com quem você ama.
+                </p>
+
+
+                <div class="features">
+
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            ✓
+                        </div>
+
+                        <span>
+                            Crie convites personalizados
+                        </span>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            ✓
+                        </div>
+
+                        <span>
+                            Gerencie seus convidados
+                        </span>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            ✓
+                        </div>
+
+                        <span>
+                            Receba confirmações de presença
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+            <!-- FORMULÁRIO -->
+
+            <section class="form-card">
+
+
+                <div class="form-header">
+
+                    <h2>
+                        Criar sua conta
+                    </h2>
+
+                    <p>
+                        Preencha os seus dados para começar.
+                    </p>
+
+                </div>
+
+
+                <form
+                    method="POST"
+                    novalidate
+                >
+
+                    {% csrf_token %}
+
+
+                    <!-- ERROS GERAIS -->
+
+                    {% if form.non_field_errors %}
+
+                        <div class="non-field-errors">
+
+                            {{ form.non_field_errors }}
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- PRIMEIRO NOME + APELIDO -->
+
+                    <div class="form-row">
+
+
+                        <div class="field">
+
+                            <label
+                                for="{{ form.first_name.id_for_label }}"
+                            >
+                                Primeiro nome
+                            </label>
+
+
+                            {{ form.first_name }}
+
+
+                            {% if form.first_name.errors %}
+
+                                <div class="errors">
+                                    {{ form.first_name.errors }}
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label
+                                for="{{ form.last_name.id_for_label }}"
+                            >
+                                Apelido
+                            </label>
+
+
+                            {{ form.last_name }}
+
+
+                            {% if form.last_name.errors %}
+
+                                <div class="errors">
+                                    {{ form.last_name.errors }}
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="field">
+
+                        <label
+                            for="{{ form.email.id_for_label }}"
+                        >
+                            Email
+                        </label>
+
+
+                        {{ form.email }}
+
+
+                        {% if form.email.errors %}
+
+                            <div class="errors">
+                                {{ form.email.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- TELEFONE -->
+
+                    <div class="field">
+
+                        <label
+                            for="{{ form.telefone.id_for_label }}"
+                        >
+                            Telefone
+                        </label>
+
+
+                        {{ form.telefone }}
+
+
+                        {% if form.telefone.errors %}
+
+                            <div class="errors">
+                                {{ form.telefone.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- SENHA -->
+
+                    <div class="field">
+
+                        <label
+                            for="{{ form.password1.id_for_label }}"
+                        >
+                            Palavra-passe
+                        </label>
+
+
+                        <div class="password-wrapper">
+
+                            {{ form.password1 }}
+
+
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                data-target="{{ form.password1.id_for_label }}"
+                            >
+                                Mostrar
+                            </button>
+
+                        </div>
+
+
+                        {% if form.password1.errors %}
+
+                            <div class="errors">
+                                {{ form.password1.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- CONFIRMAR SENHA -->
+
+                    <div class="field">
+
+                        <label
+                            for="{{ form.password2.id_for_label }}"
+                        >
+                            Confirmar palavra-passe
+                        </label>
+
+
+                        <div class="password-wrapper">
+
+                            {{ form.password2 }}
+
+
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                data-target="{{ form.password2.id_for_label }}"
+                            >
+                                Mostrar
+                            </button>
+
+                        </div>
+
+
+                        {% if form.password2.errors %}
+
+                            <div class="errors">
+                                {{ form.password2.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- TERMOS -->
+
+                    <label class="terms">
+
+                        <input
+                            type="checkbox"
+                            required
+                        >
+
+                        <span>
+
+                            Aceito os
+
+                            <a href="#">
+                                Termos de utilização
+                            </a>
+
+                            e a
+
+                            <a href="#">
+                                Política de privacidade
+                            </a>.
+
+                        </span>
+
+                    </label>
+
+
+                    <!-- BOTÃO -->
+
+                    <button
+                        type="submit"
+                        class="submit-button"
+                    >
+                        Criar minha conta
+                    </button>
+
+
+                </form>
+
+
+                <!-- LOGIN -->
+
+                <div class="login-text">
+
+                    Já possui uma conta?
+
+                    <a href="{% url 'login' %}">
+                        Entrar
+                    </a>
+
+                </div>
+
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- JavaScript -->
+
+    <script
+        src="{% static 'js/usuarios/cadastro.js' %}"
+    ></script>
+
+</body>
+
+</html>

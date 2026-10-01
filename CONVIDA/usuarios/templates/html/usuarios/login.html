@@ -1,0 +1,307 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="pt">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Entre na sua conta CONVIDA."
+    >
+
+    <title>Entrar | CONVIDA</title>
+
+
+    <!-- FONTES -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/usuarios/login.css' %}"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <a
+            href="/"
+            class="logo"
+            aria-label="CONVIDA"
+        >
+
+            CONVIDA<span>.</span>
+
+        </a>
+
+
+        <a
+            href="{% url 'cadastro' %}"
+            class="register-link"
+        >
+
+            Criar conta
+
+        </a>
+
+    </header>
+
+
+    <!-- MAIN -->
+
+    <main class="login-page">
+
+
+        <section class="login-container">
+
+
+            <!-- INTRO -->
+
+            <div class="login-intro">
+
+                <div class="eyebrow">
+
+                    CONVIDA
+
+                </div>
+
+
+                <h1>
+
+                    Bem-vindo
+                    <span>de volta.</span>
+
+                </h1>
+
+
+                <p>
+
+                    Entre na sua conta e continue
+                    a criar momentos inesquecíveis.
+
+                </p>
+
+            </div>
+
+
+            <!-- CARD -->
+
+            <section class="login-card">
+
+
+                <div class="login-header">
+
+                    <h2>
+                        Entrar
+                    </h2>
+
+                    <p>
+                        Acesse sua conta CONVIDA.
+                    </p>
+
+                </div>
+
+
+                <form
+                    method="POST"
+                    id="login-form"
+                    novalidate
+                >
+
+                    {% csrf_token %}
+
+
+                    <!-- ERROS -->
+
+                    {% if form.non_field_errors %}
+
+                        <div class="non-field-errors">
+
+                            {{ form.non_field_errors }}
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- EMAIL -->
+
+                    <div class="field">
+
+                        <label
+                            for="{{ form.email.id_for_label }}"
+                        >
+                            Email
+                        </label>
+
+
+                        {{ form.email }}
+
+
+                        {% if form.email.errors %}
+
+                            <div class="errors">
+
+                                {{ form.email.errors }}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="field">
+
+                        <div class="field-header">
+
+                            <label
+                                for="{{ form.password.id_for_label }}"
+                            >
+                                Palavra-passe
+                            </label>
+
+
+                            <a
+                                href="#"
+                                class="forgot-password"
+                            >
+                                Esqueceu a palavra-passe?
+                            </a>
+
+                        </div>
+
+
+                        <div class="password-wrapper">
+
+                            {{ form.password }}
+
+
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                data-target="{{ form.password.id_for_label }}"
+                            >
+                                Mostrar
+                            </button>
+
+                        </div>
+
+
+                        {% if form.password.errors %}
+
+                            <div class="errors">
+
+                                {{ form.password.errors }}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- LEMBRAR -->
+
+                    <label class="remember">
+
+                        {{ form.lembrar_me }}
+
+                        <span>
+                            Lembrar-me
+                        </span>
+
+                    </label>
+
+
+                    <!-- BOTÃO -->
+
+                    <button
+                        type="submit"
+                        class="submit-button"
+                        id="submit-button"
+                    >
+
+                        <span class="button-text">
+                            Entrar
+                        </span>
+
+                        <span
+                            class="button-loading"
+                            hidden
+                        >
+                            Entrando...
+                        </span>
+
+                    </button>
+
+
+                </form>
+
+
+                <!-- CADASTRO -->
+
+                <div class="register-text">
+
+                    Ainda não possui uma conta?
+
+                    <a href="{% url 'cadastro' %}">
+                        Criar conta
+                    </a>
+
+                </div>
+
+
+            </section>
+
+        </section>
+
+    </main>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script
+        src="{% static 'js/usuarios/login.js' %}"
+        defer
+    ></script>
+
+
+</body>
+
+</html>

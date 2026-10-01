@@ -1,0 +1,686 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="pt">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Dashboard do CONVIDA"
+    >
+
+    <title>Dashboard | CONVIDA</title>
+
+
+    <!-- FONTES -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/usuarios/dashboard.css' %}"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         APP
+    ========================================== -->
+
+    <div class="app">
+
+
+        <!-- =====================================
+             SIDEBAR
+        ====================================== -->
+
+        <aside class="sidebar" id="sidebar">
+
+
+            <!-- LOGO -->
+
+            <div class="sidebar-top">
+
+                <a
+                    href="{% url 'dashboard' %}"
+                    class="logo"
+                >
+
+                    CONVIDA<span>.</span>
+
+                </a>
+
+
+                <!-- FECHAR MENU MOBILE -->
+
+                <button
+                    type="button"
+                    class="close-sidebar"
+                    id="close-sidebar"
+                    aria-label="Fechar menu"
+                >
+
+                    ×
+
+                </button>
+
+            </div>
+
+
+            <!-- MENU -->
+
+            <nav class="sidebar-nav">
+
+
+                <div class="nav-section">
+
+                    <span class="nav-label">
+                        PRINCIPAL
+                    </span>
+
+
+                    <a
+                        href="{% url 'dashboard' %}"
+                        class="nav-item active"
+                    >
+
+                        <span class="nav-icon">
+                            ⌂
+                        </span>
+
+                        <span>
+                            Dashboard
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        class="nav-item"
+                    >
+
+                        <span class="nav-icon">
+                            ◫
+                        </span>
+
+                        <span>
+                            Meus convites
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        class="nav-item"
+                    >
+
+                        <span class="nav-icon">
+                            ✦
+                        </span>
+
+                        <span>
+                            Modelos
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        class="nav-item"
+                    >
+
+                        <span class="nav-icon">
+                            ♧
+                        </span>
+
+                        <span>
+                            Convidados
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <div class="nav-section">
+
+
+                    <span class="nav-label">
+                        CONTA
+                    </span>
+
+
+                    <a
+                        href="#"
+                        class="nav-item"
+                    >
+
+                        <span class="nav-icon">
+                            ◉
+                        </span>
+
+                        <span>
+                            Meu perfil
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        class="nav-item"
+                    >
+
+                        <span class="nav-icon">
+                            ⚙
+                        </span>
+
+                        <span>
+                            Configurações
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </nav>
+
+
+            <!-- SIDEBAR FOOTER -->
+
+            <div class="sidebar-footer">
+
+
+                <a
+                    href="{% url 'logout' %}"
+                    class="logout-button"
+                >
+
+                    <span class="nav-icon">
+                        ↪
+                    </span>
+
+                    <span>
+                        Sair
+                    </span>
+
+                </a>
+
+
+            </div>
+
+
+        </aside>
+
+
+        <!-- =====================================
+             OVERLAY MOBILE
+        ====================================== -->
+
+        <div
+            class="sidebar-overlay"
+            id="sidebar-overlay"
+        ></div>
+
+
+        <!-- =====================================
+             MAIN
+        ====================================== -->
+
+        <main class="main">
+
+
+            <!-- HEADER -->
+
+            <header class="topbar">
+
+
+                <button
+                    type="button"
+                    class="menu-button"
+                    id="menu-button"
+                    aria-label="Abrir menu"
+                >
+
+                    ☰
+
+                </button>
+
+
+                <div class="topbar-spacer"></div>
+
+
+                <!-- NOTIFICAÇÕES -->
+
+                <button
+                    type="button"
+                    class="notification-button"
+                    aria-label="Notificações"
+                >
+
+                    ♧
+
+                    <span class="notification-dot"></span>
+
+                </button>
+
+
+                <!-- USER -->
+
+                <div class="user-menu">
+
+
+                    <div class="user-avatar">
+
+                        {% if request.user.foto %}
+
+                            <img
+                                src="{{ request.user.foto.url }}"
+                                alt="Foto de {{ request.user.first_name }}"
+                            >
+
+                        {% else %}
+
+                            {{ request.user.first_name|first|upper }}
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="user-info">
+
+                        <strong>
+
+                            {{ request.user.first_name }}
+
+                            {{ request.user.last_name }}
+
+                        </strong>
+
+                        <span>
+                            Minha conta
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </header>
+
+
+            <!-- CONTENT -->
+
+            <div class="content">
+
+
+                <!-- WELCOME -->
+
+                <section class="welcome">
+
+
+                    <div>
+
+                        <span class="welcome-label">
+                            SEU ESPAÇO
+                        </span>
+
+
+                        <h1>
+
+                            Olá,
+                            {{ request.user.first_name }}
+                            <span>👋</span>
+
+                        </h1>
+
+
+                        <p>
+
+                            Crie e gerencie seus momentos
+                            especiais em um só lugar.
+
+                        </p>
+
+                    </div>
+
+
+                    <a
+                        href="#"
+                        class="primary-button"
+                    >
+
+                        <span>
+                            +
+                        </span>
+
+                        Criar convite
+
+                    </a>
+
+
+                </section>
+
+
+                <!-- STATS -->
+
+                <section class="stats">
+
+
+                    <article class="stat-card">
+
+                        <div class="stat-icon blue">
+                            ◫
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Convites
+                            </span>
+
+                            <strong>
+                                0
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="stat-card">
+
+                        <div class="stat-icon purple">
+                            ♧
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Convidados
+                            </span>
+
+                            <strong>
+                                0
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="stat-card">
+
+                        <div class="stat-icon green">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Confirmações
+                            </span>
+
+                            <strong>
+                                0
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="stat-card">
+
+                        <div class="stat-icon orange">
+                            ◷
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Pendentes
+                            </span>
+
+                            <strong>
+                                0
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+
+                </section>
+
+
+                <!-- CONVITES -->
+
+                <section class="section">
+
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>
+                                Seus convites
+                            </h2>
+
+                            <p>
+                                Gerencie seus convites digitais.
+                            </p>
+
+                        </div>
+
+
+                        <a
+                            href="#"
+                            class="view-all"
+                        >
+                            Ver todos
+                        </a>
+
+                    </div>
+
+
+                    <!-- EMPTY STATE -->
+
+                    <div class="empty-state">
+
+
+                        <div class="empty-icon">
+
+                            ✦
+
+                        </div>
+
+
+                        <h3>
+
+                            Ainda não criou nenhum convite
+
+                        </h3>
+
+
+                        <p>
+
+                            Escolha um dos nossos modelos
+                            e comece a criar seu primeiro
+                            convite digital.
+
+                        </p>
+
+
+                        <a
+                            href="#"
+                            class="secondary-button"
+                        >
+
+                            Explorar modelos
+
+                        </a>
+
+
+                    </div>
+
+
+                </section>
+
+
+                <!-- MODELOS -->
+
+                <section class="section">
+
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>
+                                Comece por um modelo
+                            </h2>
+
+                            <p>
+                                Escolha um design para o seu convite.
+                            </p>
+
+                        </div>
+
+
+                        <a
+                            href="#"
+                            class="view-all"
+                        >
+                            Ver modelos
+                        </a>
+
+                    </div>
+
+
+                    <div class="template-preview-grid">
+
+
+                        <article class="template-preview blue-template">
+
+                            <div class="template-content">
+
+                                <small>
+                                    CONVIDA
+                                </small>
+
+                                <h3>
+                                    Minimal Blue
+                                </h3>
+
+                                <span>
+                                    Elegante e minimalista
+                                </span>
+
+                            </div>
+
+                        </article>
+
+
+                        <article class="template-preview dark-template">
+
+                            <div class="template-content">
+
+                                <small>
+                                    CONVIDA
+                                </small>
+
+                                <h3>
+                                    Dark Elegance
+                                </h3>
+
+                                <span>
+                                    Moderno e sofisticado
+                                </span>
+
+                            </div>
+
+                        </article>
+
+
+                        <article class="template-preview floral-template">
+
+                            <div class="template-content">
+
+                                <small>
+                                    CONVIDA
+                                </small>
+
+                                <h3>
+                                    Floral
+                                </h3>
+
+                                <span>
+                                    Delicado e romântico
+                                </span>
+
+                            </div>
+
+                        </article>
+
+
+                    </div>
+
+
+                </section>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script
+        src="{% static 'js/usuarios/dashboard.js' %}"
+        defer
+    ></script>
+
+
+</body>
+
+</html>
