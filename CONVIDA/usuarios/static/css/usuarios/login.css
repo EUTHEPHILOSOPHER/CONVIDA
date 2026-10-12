@@ -27,6 +27,22 @@
 
 }
 
+.logo{
+    display: flex;
+    align-items: center;
+}
+
+.logo-sign {
+    width: 30px;
+    height: auto;
+    margin-right: 8px;
+}
+
+.logo-image {
+    width: 100px;
+    height: auto;
+}
+
 
 html {
 

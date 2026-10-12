@@ -1,0 +1,373 @@
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --black: #08090b;
+    --blue: #2597d0;
+    --gray: #737985;
+    --border: #e5e8ec;
+    --background: #f7f8fa;
+}
+
+body {
+    margin: 0;
+    background: var(--background);
+    color: var(--black);
+    font-family: Inter, Arial, sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+.topbar {
+    height: 72px;
+    padding: 0 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-bottom: 1px solid var(--border);
+}
+
+.back-link {
+    color: var(--gray);
+    font-size: 13px;
+}
+
+.brand {
+    color: var(--black);
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.draft-badge,
+.preview-live {
+    padding: 7px 11px;
+    border-radius: 30px;
+    background: #fff4d8;
+    color: #9a6700;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.editor-layout {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 42px 28px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, .9fr);
+    gap: 40px;
+    align-items: start;
+}
+
+.page-heading {
+    margin-bottom: 30px;
+}
+
+.eyebrow {
+    display: block;
+    color: var(--blue);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.7px;
+    margin-bottom: 12px;
+}
+
+.page-heading h1 {
+    margin: 0 0 12px;
+    font-size: clamp(29px, 4vw, 40px);
+    letter-spacing: -1.5px;
+}
+
+.page-heading p {
+    color: var(--gray);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.editor-form,
+.preview-panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 10px 30px rgba(8, 9, 11, .035);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-bottom: 22px;
+}
+
+.field label {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.form-control {
+    width: 100%;
+    min-height: 46px;
+    padding: 12px 13px;
+    border: 1px solid #dfe3e8;
+    border-radius: 10px;
+    background: white;
+    color: var(--black);
+    font: inherit;
+    font-size: 14px;
+}
+
+textarea.form-control {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.form-control:focus {
+    outline: 3px solid rgba(37, 151, 208, .12);
+    border-color: var(--blue);
+}
+
+.field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.field .errorlist,
+.error-message {
+    color: #b42318;
+    font-size: 12px;
+}
+
+.template-value {
+    padding: 12px;
+    background: #f3f8fb;
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+.change-template {
+    color: var(--blue);
+    font-size: 12px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 10px;
+}
+
+.cancel-button,
+.save-button {
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 17px;
+    border-radius: 11px;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.cancel-button {
+    color: var(--gray);
+    border: 1px solid var(--border);
+}
+
+.save-button {
+    gap: 10px;
+    border: 0;
+    background: var(--black);
+    color: white;
+}
+
+.save-button:hover {
+    background: var(--blue);
+}
+
+.preview-panel {
+    position: sticky;
+    top: 25px;
+}
+
+.preview-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.invitation-preview {
+    min-height: 440px;
+    padding: 35px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(145deg, #edf7fc, white);
+    color: var(--black);
+    border-radius: 12px;
+    overflow-wrap: anywhere;
+}
+
+.preview-kicker {
+    font-size: 9px;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.invitation-preview h2 {
+    max-width: 100%;
+    margin: 24px 0;
+    font-family: Georgia, serif;
+    font-size: clamp(28px, 3vw, 42px);
+}
+
+.preview-divider {
+    width: 45px;
+    height: 2px;
+    background: var(--blue);
+    margin-bottom: 22px;
+}
+
+.invitation-preview p {
+    margin: 5px 0;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.preview-description {
+    max-width: 280px;
+    margin-top: 22px !important;
+    white-space: pre-line;
+}
+
+.invitation-preview.floral {
+    background: #fbf3ed;
+    color: #725d51;
+}
+
+.invitation-preview.luxury-gold {
+    background: #181715;
+    color: #d7bd7e;
+}
+
+.invitation-preview.luxury-gold .preview-divider {
+    background: #d7bd7e;
+}
+
+.invitation-preview.tropical {
+    background: #edf4e6;
+    color: #3f6149;
+}
+
+.invitation-preview.tropical .preview-divider {
+    background: #3f6149;
+}
+
+.invitation-preview.african-heritage {
+    background: #3e2720;
+    color: #e2c58e;
+}
+
+.invitation-preview.african-heritage .preview-divider {
+    background: #e2c58e;
+}
+
+.preview-note {
+    margin: 15px 0 0;
+    color: var(--gray);
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+    .editor-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .preview-panel {
+        position: static;
+    }
+
+    .invitation-preview {
+        min-height: 360px;
+    }
+}
+
+@media (max-width: 560px) {
+    .topbar {
+        padding: 0 15px;
+    }
+
+    .back-link {
+        font-size: 11px;
+    }
+
+    .brand {
+        font-size: 12px;
+    }
+
+    .editor-layout {
+        padding: 28px 14px;
+        gap: 22px;
+    }
+
+    .editor-form,
+    .preview-panel {
+        padding: 20px 16px;
+    }
+
+    .field-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .cancel-button,
+    .save-button {
+        width: 100%;
+    }
+}
+
+
+.publish-form {
+    margin-top: 16px;
+    text-align: right;
+}
+
+.publish-form p {
+    color: #198754;
+    font-size: 13px;
+}
+
+.publish-button {
+    min-height: 46px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 11px;
+    background: #198754;
+    color: white;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.publish-button:hover {
+    background: #146c43;
+}
+

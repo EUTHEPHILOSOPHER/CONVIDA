@@ -1,0 +1,87 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dados do evento — CONVIDA</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/convites/dados_evento.css' %}">
+</head>
+
+<body>
+<header class="header">
+    <a href="{% url 'dados_convite' tipo_evento %}" class="back">
+        ← Voltar aos templates
+    </a>
+
+    <a href="{% url 'meus_convites' %}" class="brand">CONVIDA</a>
+
+    <span class="step">03 / 04</span>
+</header>
+
+<main class="container">
+    <div class="intro">
+        <span class="eyebrow">{{ tipo_evento_nome|upper }}</span>
+        <h1>Conte-nos sobre o evento</h1>
+        <p>Preencha os detalhes. Poderá personalizar o convite depois.</p>
+    </div>
+
+    <form method="post" class="event-form">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="errors">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        {{ form.tipo_evento.as_hidden }}
+        {{ form.template.as_hidden }}
+
+        <div class="field">
+            <label for="{{ form.titulo.id_for_label }}">Título do convite *</label>
+            {{ form.titulo }}
+            {{ form.titulo.errors }}
+        </div>
+
+        <div class="field-row">
+            <div class="field">
+                <label for="{{ form.data_evento.id_for_label }}">Data do evento</label>
+                {{ form.data_evento }}
+                {{ form.data_evento.errors }}
+            </div>
+
+            <div class="field">
+                <label for="{{ form.hora_evento.id_for_label }}">Hora</label>
+                {{ form.hora_evento }}
+                {{ form.hora_evento.errors }}
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="{{ form.local_evento.id_for_label }}">Local do evento</label>
+            {{ form.local_evento }}
+            {{ form.local_evento.errors }}
+        </div>
+
+        <div class="field">
+            <label for="{{ form.descricao.id_for_label }}">Mensagem ou descrição</label>
+            {{ form.descricao }}
+            {{ form.descricao.errors }}
+        </div>
+
+        <div class="selected-template">
+            <span>Template escolhido</span>
+            <strong>{{ template }}</strong>
+        </div>
+
+        <button type="submit" class="submit-button">
+            Guardar rascunho e continuar →
+        </button>
+    </form>
+</main>
+</body>
+</html>

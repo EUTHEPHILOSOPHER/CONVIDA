@@ -1,0 +1,297 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Meus convites — CONVIDA</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/convites/meus_convites.css' %}"
+    >
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <span class="brand-mark">C</span>
+            <span class="brand-name">CONVIDA</span>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a
+                href="{% url 'dashboard' %}"
+                class="nav-item"
+            >
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a
+                href="{% url 'meus_convites' %}"
+                class="nav-item active"
+            >
+                <span class="nav-icon">▧</span>
+                <span>Meus convites</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">♙</span>
+                <span>Convidados</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">◷</span>
+                <span>Confirmações</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">⚙</span>
+                <span>Definições</span>
+            </a>
+
+            <a
+                href="{% url 'logout' %}"
+                class="nav-item logout"
+            >
+                <span class="nav-icon">↪</span>
+                <span>Sair</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <button
+                class="mobile-menu"
+                id="mobileMenu"
+                type="button"
+            >
+                ☰
+            </button>
+
+            <div class="topbar-title">
+                Meus convites
+            </div>
+
+            <div class="topbar-user">
+
+                <div class="user-avatar">
+                    {% if request.user.foto %}
+                        <img
+                            src="{{ request.user.foto.url }}"
+                            alt="Foto de perfil"
+                        >
+                    {% else %}
+                        {{ request.user.first_name|first|upper }}
+                    {% endif %}
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+            <div class="page-heading">
+
+                <div>
+                    <span class="eyebrow">
+                        CONVIDA
+                    </span>
+
+                    <h1>
+                        Meus convites
+                    </h1>
+
+                    <p>
+                        Crie, personalize e partilhe os seus convites
+                        digitais.
+                    </p>
+                </div>
+
+                <a
+                    href="{% url 'criar_convite' %}"
+                    class="primary-button"
+                >
+                    <span>+</span>
+                    Criar convite
+                </a>
+
+            </div>
+
+
+            {% if convites %}
+
+                <div class="invitation-grid">
+
+                    {% for convite in convites %}
+
+                        <article class="invitation-card">
+
+                            <div class="invitation-preview">
+
+                                <div class="preview-decoration"></div>
+
+                                <span class="preview-label">
+                                    {{ convite.get_tipo_evento_display }}
+                                </span>
+
+                                <h2>
+                                    {{ convite.titulo }}
+                                </h2>
+
+                                {% if convite.data_evento %}
+                                    <p>
+                                        {{ convite.data_evento|date:"d \d\e F \d\e Y" }}
+                                    </p>
+                                {% endif %}
+
+                                <span class="preview-template">
+                                    {{ convite.template }}
+                                </span>
+
+                            </div>
+
+
+                            <div class="invitation-info">
+
+                                <div class="invitation-meta">
+
+                                    <div>
+                                        <span class="meta-label">
+                                            Estado
+                                        </span>
+
+                                        <span
+                                            class="status status-{{ convite.status }}"
+                                        >
+                                            {{ convite.get_status_display }}
+                                        </span>
+                                    </div>
+
+                                    <div>
+                                        <span class="meta-label">
+                                            Criado em
+                                        </span>
+
+                                        <span class="meta-value">
+                                            {{ convite.criado_em|date:"d/m/Y" }}
+                                        </span>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="card-actions">
+
+                                    <a
+                                        href="{% url 'editar_convite' convite.slug %}"
+                                        class="secondary-button"
+                                    >
+                                        Editar
+                                    </a>
+
+                                    <a
+                                        href="#"
+                                        class="icon-button"
+                                        title="Visualizar convite"
+                                    >
+                                        ↗
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <section class="empty-state">
+
+                    <div class="empty-icon">
+                        ✦
+                    </div>
+
+                    <h2>
+                        Ainda não tem convites
+                    </h2>
+
+                    <p>
+                        Comece criando o seu primeiro convite digital.
+                        Escolha um design, adicione os detalhes do
+                        evento e partilhe com os seus convidados.
+                    </p>
+
+                    <a
+                        href="{% url 'criar_convite' %}"
+                        class="primary-button"
+                    >
+                        Criar meu primeiro convite
+                    </a>
+
+                </section>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script
+    src="{% static 'js/convites/meus_convites.js' %}"
+    defer
+></script>
+
+</body>
+</html>

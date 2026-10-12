@@ -1,0 +1,180 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Editar convite — CONVIDA</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/convites/editar_convite.css' %}">
+</head>
+
+<body>
+
+<header class="topbar">
+    <a href="{% url 'meus_convites' %}" class="back-link">
+        ← Meus convites
+    </a>
+
+    <a href="{% url 'dashboard' %}" class="brand">CONVIDA</a>
+
+    <span class="draft-badge">Rascunho</span>
+</header>
+
+<main class="editor-layout">
+
+    <section class="editor-panel">
+
+        <div class="page-heading">
+            <span class="eyebrow">EDITOR DE CONVITES</span>
+            <h1>Personalize o seu convite</h1>
+            <p>Atualize os detalhes do evento. As alterações serão guardadas no sistema.</p>
+        </div>
+
+        <form method="post" class="editor-form">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="error-message">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            {{ form.tipo_evento.as_hidden }}
+            {{ form.template.as_hidden }}
+
+            <div class="field">
+                <label for="{{ form.titulo.id_for_label }}">Título do convite *</label>
+                {{ form.titulo }}
+                {{ form.titulo.errors }}
+            </div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label for="{{ form.data_evento.id_for_label }}">Data do evento</label>
+                    {{ form.data_evento }}
+                    {{ form.data_evento.errors }}
+                </div>
+
+                <div class="field">
+                    <label for="{{ form.hora_evento.id_for_label }}">Hora</label>
+                    {{ form.hora_evento }}
+                    {{ form.hora_evento.errors }}
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="{{ form.local_evento.id_for_label }}">Local do evento</label>
+                {{ form.local_evento }}
+                {{ form.local_evento.errors }}
+            </div>
+
+            <div class="field">
+                <label for="{{ form.descricao.id_for_label }}">Mensagem do convite</label>
+                {{ form.descricao }}
+                {{ form.descricao.errors }}
+            </div>
+
+            <div class="field">
+                <label>Template selecionado</label>
+                <div class="template-value">
+                    {{ convite.template }}
+                </div>
+                <a href="{% url 'dados_convite' convite.tipo_evento %}"
+                   class="change-template">
+                    Escolher outro template
+                </a>
+            </div>
+
+            
+        <div class="form-actions">
+            <a href="{% url 'meus_convites' %}" class="cancel-button">
+                Meus convites
+            </a>
+
+            <a href="{% url 'visualizar_convite' convite.slug %}"
+            class="cancel-button">
+                Pré-visualizar
+            </a>
+
+            <button type="submit" class="save-button">
+                Guardar alterações →
+            </button>
+        </div>
+    </form>
+
+    <form method="post"
+        action="{% url 'publicar_convite' convite.slug %}"
+        class="publish-form">
+        {% csrf_token %}
+
+        {% if convite.status == 'publicado' %}
+            <p>Este convite está publicado.</p>
+        {% else %}
+            <button type="submit" class="publish-button">
+                Publicar convite
+            </button>
+        {% endif %}
+    </form>
+
+
+    </section>
+
+    <aside class="preview-panel">
+        <div class="preview-heading">
+            <span class="eyebrow">PRÉ-VISUALIZAÇÃO</span>
+            <span class="preview-live">Rascunho</span>
+        </div>
+
+        <div class="invitation-preview {{ convite.template }}" id="invitationPreview">
+
+            <span class="preview-kicker">
+                {{ convite.get_tipo_evento_display|upper }}
+            </span>
+
+            <h2 id="previewTitle">{{ convite.titulo }}</h2>
+
+            <div class="preview-divider"></div>
+
+            <p id="previewDate">
+                {% if convite.data_evento %}
+                    {{ convite.data_evento|date:"d/m/Y" }}
+                {% else %}
+                    Data a definir
+                {% endif %}
+            </p>
+
+            <p id="previewTime">
+                {% if convite.hora_evento %}
+                    {{ convite.hora_evento|time:"H:i" }}
+                {% else %}
+                    Hora a definir
+                {% endif %}
+            </p>
+
+            <p id="previewLocation">
+                {{ convite.local_evento|default:"Local a definir" }}
+            </p>
+
+            <p class="preview-description" id="previewDescription">
+                {{ convite.descricao }}
+            </p>
+
+        </div>
+
+        <p class="preview-note">
+            Esta é uma pré-visualização básica. O design final será refinado
+            na etapa de personalização.
+        </p>
+    </aside>
+
+</main>
+
+<script src="{% static 'js/convites/editar_convite.js' %}" defer></script>
+
+</body>
+</html>

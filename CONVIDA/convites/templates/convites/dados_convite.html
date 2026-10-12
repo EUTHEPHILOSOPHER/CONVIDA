@@ -1,0 +1,241 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Escolher template — CONVIDA</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/convites/dados_convite.css' %}"
+    >
+
+</head>
+
+<body>
+
+<main class="template-page">
+
+    <header class="template-header">
+
+        <a
+            href="{% url 'criar_convite' %}"
+            class="back-link"
+        >
+            ← Voltar
+        </a>
+
+        <div class="brand">
+            <span class="brand-mark">C</span>
+            <span class="brand-name">CONVIDA</span>
+        </div>
+
+        <div class="steps">
+            <strong>02</strong>
+            <span>/ 04</span>
+        </div>
+
+    </header>
+
+
+    <section class="template-content">
+
+        <div class="heading">
+
+            <span class="eyebrow">
+                {{ tipo_evento_nome|upper }}
+            </span>
+
+            <h1>
+                Escolha o seu estilo
+            </h1>
+
+            <p>
+                Selecione um design para começar a personalizar
+                o seu convite.
+            </p>
+
+        </div>
+
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <div class="template-grid">
+
+                {% for item in templates %}
+
+                    <label class="template-option">
+
+                        <input
+                            type="radio"
+                            name="template"
+                            value="{{ item.id }}"
+                        >
+
+                        <div class="template-card">
+
+                            <div class="template-preview {{ item.classe }}">
+
+                                {% if item.id == 'minimal-blue' %}
+
+                                    <span class="preview-small">
+                                        VOCÊ ESTÁ CONVIDADO
+                                    </span>
+
+                                    <h2>
+                                        Cleiton<br>
+                                        & Ana
+                                    </h2>
+
+                                    <span class="preview-date">
+                                        20 · 12 · 2026
+                                    </span>
+
+                                {% elif item.id == 'floral' %}
+
+                                    <span class="floral-decoration">
+                                        ❋
+                                    </span>
+
+                                    <span class="preview-small">
+                                        SAVE THE DATE
+                                    </span>
+
+                                    <h2>
+                                        Cleiton<br>
+                                        & Ana
+                                    </h2>
+
+                                    <span class="preview-date">
+                                        20 Dezembro 2026
+                                    </span>
+
+                                {% elif item.id == 'luxury-gold' %}
+
+                                    <span class="preview-small">
+                                        THE WEDDING OF
+                                    </span>
+
+                                    <h2>
+                                        C & A
+                                    </h2>
+
+                                    <span class="preview-date">
+                                        20 — 12 — 2026
+                                    </span>
+
+                                {% elif item.id == 'tropical' %}
+
+                                    <span class="preview-small">
+                                        VAMOS CELEBRAR
+                                    </span>
+
+                                    <h2>
+                                        Uma<br>
+                                        grande festa
+                                    </h2>
+
+                                    <span class="preview-date">
+                                        20.12.2026
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="preview-small">
+                                        CELEBRAÇÃO
+                                    </span>
+
+                                    <h2>
+                                        C & A
+                                    </h2>
+
+                                    <span class="preview-date">
+                                        20 Dezembro
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="template-info">
+
+                                <div>
+
+                                    <h2>
+                                        {{ item.nome }}
+                                    </h2>
+
+                                    <p>
+                                        {{ item.descricao }}
+                                    </p>
+
+                                </div>
+
+                                <span class="radio"></span>
+
+                            </div>
+
+                        </div>
+
+                    </label>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div class="template-footer">
+
+                <button
+                    type="submit"
+                    id="continueButton"
+                    class="continue-button"
+                    disabled
+                >
+                    Continuar
+                    <span>→</span>
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+</main>
+
+
+<script
+    src="{% static 'js/convites/dados_convite.js' %}"
+    defer
+></script>
+
+</body>
+</html>

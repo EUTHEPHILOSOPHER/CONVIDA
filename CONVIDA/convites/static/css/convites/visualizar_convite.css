@@ -1,0 +1,190 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #f2f3f5;
+    color: #17191d;
+    font-family: Inter, Arial, sans-serif;
+}
+
+.page {
+    width: min(760px, calc(100% - 32px));
+    margin: 40px auto;
+}
+
+.invitation {
+    position: relative;
+    min-height: 680px;
+    padding: 65px 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-wrap: anywhere;
+    text-align: center;
+    background: linear-gradient(145deg, #edf7fc, #fff);
+    border: 1px solid #dce8ee;
+    box-shadow: 0 20px 60px rgba(8, 9, 11, .08);
+}
+
+.event-type {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.ornament {
+    margin-top: 30px;
+    color: #2597d0;
+    font-size: 25px;
+}
+
+h1 {
+    max-width: 100%;
+    margin: 25px 0;
+    font-family: Georgia, serif;
+    font-size: clamp(36px, 7vw, 60px);
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.divider {
+    width: 55px;
+    height: 2px;
+    margin-bottom: 25px;
+    background: #2597d0;
+}
+
+.event-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+}
+
+.detail {
+    max-width: 220px;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.detail span {
+    display: block;
+    margin-bottom: 5px;
+    color: #737985;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.message {
+    max-width: 440px;
+    margin-top: 30px;
+    font-size: 14px;
+    line-height: 1.9;
+    white-space: pre-line;
+}
+
+.invitation footer {
+    position: absolute;
+    bottom: 24px;
+    color: #737985;
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+/* Minimal Blue */
+.minimal-blue {
+    background: linear-gradient(145deg, #edf7fc, #fff 60%, #e6f3fa);
+}
+
+/* Floral */
+.floral {
+    background: #fbf3ed;
+    color: #725d51;
+    border: 1px solid #e8d6c8;
+}
+
+.floral .divider,
+.floral .ornament {
+    color: #ad806a;
+    background-color: #ad806a;
+}
+
+/* Luxury Gold */
+.luxury-gold {
+    background: #181715;
+    color: #dfc58e;
+    border: 7px double #b69a61;
+}
+
+.luxury-gold .detail span,
+.luxury-gold footer {
+    color: #c4b38e;
+}
+
+.luxury-gold .divider {
+    background: #dfc58e;
+}
+
+/* Tropical */
+.tropical {
+    background: linear-gradient(145deg, #edf4e6, #fbf2df);
+    color: #3f6149;
+    border: 1px solid #d4e2c8;
+}
+
+.tropical .divider,
+.tropical .ornament {
+    color: #64865d;
+    background-color: #64865d;
+}
+
+/* African Heritage */
+.african-heritage {
+    background: #3e2720;
+    color: #e2c58e;
+    border: 7px double #a77b45;
+}
+
+.african-heritage .detail span,
+.african-heritage footer {
+    color: #d2b987;
+}
+
+.african-heritage .divider {
+    background: #e2c58e;
+}
+
+.preview-actions {
+    margin-top: 22px;
+    text-align: center;
+}
+
+.preview-actions a {
+    color: #2597d0;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+@media (max-width: 560px) {
+    .page {
+        width: calc(100% - 20px);
+        margin: 10px auto;
+    }
+
+    .invitation {
+        min-height: 620px;
+        padding: 55px 20px;
+    }
+
+    .event-details {
+        flex-direction: column;
+        gap: 12px;
+    }
+}

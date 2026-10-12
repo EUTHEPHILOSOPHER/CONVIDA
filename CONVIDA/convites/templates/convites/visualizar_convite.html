@@ -1,0 +1,64 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ convite.titulo }} — CONVIDA</title>
+    <link rel="stylesheet" href="{% static 'css/convites/visualizar_convite.css' %}">
+</head>
+<body>
+
+<main class="page">
+    <div class="invitation {{ convite.template }}">
+
+        <span class="event-type">
+            {{ convite.get_tipo_evento_display }}
+        </span>
+
+        <div class="ornament">✦</div>
+
+        <h1>{{ convite.titulo }}</h1>
+
+        <div class="divider"></div>
+
+        <div class="event-details">
+            {% if convite.data_evento %}
+                <p class="detail">
+                    <span>DATA</span>
+                    {{ convite.data_evento|date:"d/m/Y" }}
+                </p>
+            {% endif %}
+
+            {% if convite.hora_evento %}
+                <p class="detail">
+                    <span>HORA</span>
+                    {{ convite.hora_evento|time:"H:i" }}
+                </p>
+            {% endif %}
+
+            {% if convite.local_evento %}
+                <p class="detail">
+                    <span>LOCAL</span>
+                    {{ convite.local_evento }}
+                </p>
+            {% endif %}
+        </div>
+
+        {% if convite.descricao %}
+            <p class="message">{{ convite.descricao }}</p>
+        {% endif %}
+
+        <footer>Feito com CONVIDA</footer>
+    </div>
+
+    <div class="preview-actions">
+        <a href="{% url 'editar_convite' convite.slug %}">
+            Voltar à edição
+        </a>
+    </div>
+</main>
+
+</body>
+</html>

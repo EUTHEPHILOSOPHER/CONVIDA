@@ -1,0 +1,361 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Criar convite — CONVIDA</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/convites/criar_convite.css' %}"
+    >
+
+</head>
+
+<body>
+
+<main class="create-page">
+
+    <!-- HEADER -->
+
+    <header class="create-header">
+
+        <a
+            href="{% url 'meus_convites' %}"
+            class="back-link"
+        >
+            <span>←</span>
+            Voltar
+        </a>
+
+        <div class="brand">
+            <span class="brand-mark">C</span>
+            <span class="brand-name">CONVIDA</span>
+        </div>
+
+        <div class="step-indicator">
+            <span class="step-active">01</span>
+            <span>/</span>
+            <span>04</span>
+        </div>
+
+    </header>
+
+
+    <!-- CONTENT -->
+
+    <section class="create-content">
+
+        <div class="intro">
+
+            <span class="eyebrow">
+                NOVO CONVITE
+            </span>
+
+            <h1>
+                Que tipo de evento<br>
+                você está a preparar?
+            </h1>
+
+            <p>
+                Escolha uma categoria para começarmos
+                a criar o seu convite.
+            </p>
+
+        </div>
+
+
+        <form
+            method="post"
+            class="event-form"
+        >
+
+            {% csrf_token %}
+
+            <div class="event-grid">
+
+                <!-- CASAMENTO -->
+
+                <label class="event-option">
+
+                    <input
+                        type="radio"
+                        name="tipo_evento"
+                        value="casamento"
+                    >
+
+                    <div class="event-card">
+
+                        <div class="event-icon">
+                            ♡
+                        </div>
+
+                        <div>
+                            <h2>
+                                Casamento
+                            </h2>
+
+                            <p>
+                                Celebre o início de uma nova história.
+                            </p>
+                        </div>
+
+                        <span class="radio-indicator"></span>
+
+                    </div>
+
+                </label>
+
+
+                <!-- ANIVERSÁRIO -->
+
+                <label class="event-option">
+
+                    <input
+                        type="radio"
+                        name="tipo_evento"
+                        value="aniversario"
+                    >
+
+                    <div class="event-card">
+
+                        <div class="event-icon">
+                            ✦
+                        </div>
+
+                        <div>
+                            <h2>
+                                Aniversário
+                            </h2>
+
+                            <p>
+                                Comemore mais um ano de vida.
+                            </p>
+                        </div>
+
+                        <span class="radio-indicator"></span>
+
+                    </div>
+
+                </label>
+
+
+                <!-- BATIZADO -->
+
+                <label class="event-option">
+
+                    <input
+                        type="radio"
+                        name="tipo_evento"
+                        value="batizado"
+                    >
+
+                    <div class="event-card">
+
+                        <div class="event-icon">
+                            ◇
+                        </div>
+
+                        <div>
+                            <h2>
+                                Batizado
+                            </h2>
+
+                            <p>
+                                Um momento especial para celebrar.
+                            </p>
+                        </div>
+
+                        <span class="radio-indicator"></span>
+
+                    </div>
+
+                </label>
+
+
+                <!-- FORMATURA -->
+
+                <label class="event-option">
+
+                    <input
+                        type="radio"
+                        name="tipo_evento"
+                        value="formatura"
+                    >
+
+                    <div class="event-card">
+
+                        <div class="event-icon">
+                            ✎
+                        </div>
+
+                        <div>
+                            <h2>
+                                Formatura
+                            </h2>
+
+                            <p>
+                                Celebre uma grande conquista.
+                            </p>
+                        </div>
+
+                        <span class="radio-indicator"></span>
+
+                    </div>
+
+                </label>
+
+
+                <!-- NOIVADO -->
+
+                <label class="event-option">
+
+                    <input
+                        type="radio"
+                        name="tipo_evento"
+                        value="noivado"
+                    >
+
+                    <div class="event-card">
+
+                        <div class="event-icon">
+                            ◉
+                        </div>
+
+                        <div>
+                            <h2>
+                                Noivado
+                            </h2>
+
+                            <p>
+                                Anuncie um novo capítulo.
+                            </p>
+                        </div>
+
+                        <span class="radio-indicator"></span>
+
+                    </div>
+
+                </label>
+
+
+                <!-- CHÁ -->
+
+                <label class="event-option">
+
+                    <input
+                        type="radio"
+                        name="tipo_evento"
+                        value="cha"
+                    >
+
+                    <div class="event-card">
+
+                        <div class="event-icon">
+                            ☕
+                        </div>
+
+                        <div>
+                            <h2>
+                                Chá
+                            </h2>
+
+                            <p>
+                                Reúna pessoas especiais.
+                            </p>
+                        </div>
+
+                        <span class="radio-indicator"></span>
+
+                    </div>
+
+                </label>
+
+
+                <!-- OUTRO -->
+
+                <label class="event-option">
+
+                    <input
+                        type="radio"
+                        name="tipo_evento"
+                        value="outro"
+                    >
+
+                    <div class="event-card">
+
+                        <div class="event-icon">
+                            +
+                        </div>
+
+                        <div>
+                            <h2>
+                                Outro evento
+                            </h2>
+
+                            <p>
+                                Crie um convite para qualquer ocasião.
+                            </p>
+                        </div>
+
+                        <span class="radio-indicator"></span>
+
+                    </div>
+
+                </label>
+
+            </div>
+
+
+            <div class="form-footer">
+
+                <button
+                    type="submit"
+                    class="continue-button"
+                    id="continueButton"
+                    disabled
+                >
+                    Continuar
+                    <span>→</span>
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+</main>
+
+
+<script
+    src="{% static 'js/convites/criar_convite.js' %}"
+    defer
+></script>
+
+</body>
+</html>
