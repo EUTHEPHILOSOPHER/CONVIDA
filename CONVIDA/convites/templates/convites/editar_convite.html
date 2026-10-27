@@ -22,7 +22,15 @@
 
     <a href="{% url 'dashboard' %}" class="brand">CONVIDA</a>
 
-    <span class="draft-badge">Rascunho</span>
+    <span class="draft-badge">
+        {% if convite.status == 'publicado' %}
+            Publicado
+        {% elif convite.status == 'rascunho' %}
+            Rascunho
+        {% else %}
+            {{ convite.get_status_display }}
+        {% endif %}
+    </span>
 </header>
 
 <main class="editor-layout">
@@ -32,105 +40,466 @@
         <div class="page-heading">
             <span class="eyebrow">EDITOR DE CONVITES</span>
             <h1>Personalize o seu convite</h1>
-            <p>Atualize os detalhes do evento. As alterações serão guardadas no sistema.</p>
+            <p>
+                Gere cada parte do seu convite de forma independente.
+                Guarde as alterações antes de sair de cada sessão.
+            </p>
         </div>
 
-        <form method="post" class="editor-form">
-            {% csrf_token %}
+        {% if messages %}
+            <div class="messages" role="status">
+                {% for message in messages %}
+                    <div class="{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
 
-            {% if form.non_field_errors %}
-                <div class="error-message">
-                    {{ form.non_field_errors }}
+        <!-- SESSÕES DO CONVITE -->
+
+        <section class="editor-sessions">
+
+            <div class="sessions-heading">
+                <span class="eyebrow">SESSÕES DO CONVITE</span>
+                <h2>O que pretende editar?</h2>
+                <p>
+                    Escolha uma sessão para gerir os diferentes elementos
+                    do seu convite.
+                </p>
+            </div>
+
+            <div class="sessions-grid">
+
+                <!-- SESSÃO 01: DADOS DO EVENTO -->
+
+                <a href="#dados-evento" class="session-card">
+                    <span class="session-number">01</span>
+                    <span class="session-icon" aria-hidden="true">✎</span>
+
+                    <span class="session-title">Dados do evento</span>
+
+                    <span class="session-description">
+                        Edite o título, a data, a hora, o local e a mensagem.
+                    </span>
+
+                    <span class="session-action">
+                        Editar dados →
+                    </span>
+                </a>
+
+                <!-- SESSÃO 02: DESIGN -->
+
+                <form method="post" class="session-card template-session">
+                    {% csrf_token %}
+
+                    <input type="hidden" name="acao" value="alterar_template">
+
+                    <span class="session-number">02</span>
+                    <span class="session-icon" aria-hidden="true">◇</span>
+
+                    <span class="session-title">Design do convite</span>
+
+                    <span class="session-description">
+                        Escolha outro estilo visual sem recriar o convite.
+                    </span>
+
+                    <label for="novo_template">Template selecionado</label>
+
+                    <select name="novo_template" id="novo_template" required>
+                        {% for item in templates %}
+                            <option value="{{ item.id }}"
+                                {% if convite.template == item.id %}
+                                    selected
+                                {% endif %}>
+                                {{ item.nome }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    <button type="submit" class="session-action">
+                        Aplicar design →
+                    </button>
+                </form>
+
+                <!-- SESSÃO 03: MÚSICA -->
+
+                <a href="#musica-convite" class="session-card">
+                    <span class="session-number">03</span>
+                    <span class="session-icon" aria-hidden="true">♫</span>
+
+                    <span class="session-title">Música do convite</span>
+
+                    <span class="session-description">
+                        Carregue, ouça, substitua ou remova a música e
+                        controle a sua disponibilização no convite público.
+                    </span>
+
+                    {% if convite.musica %}
+                        <span class="session-count">Música adicionada</span>
+                    {% else %}
+                        <span class="session-count">Sem música</span>
+                    {% endif %}
+
+                    <span class="session-action">
+                        Gerir música →
+                    </span>
+                </a>
+
+                <!-- SESSÃO 04: LOCAIS -->
+
+                <a href="{% url 'gerir_locais' convite.slug %}"
+                   class="session-card">
+
+                    <span class="session-number">04</span>
+                    <span class="session-icon" aria-hidden="true">⌖</span>
+
+                    <span class="session-title">Locais e programação</span>
+
+                    <span class="session-description">
+                        Organize os locais, horários e actividades do evento.
+                    </span>
+
+                    <span class="session-count">
+                        {{ convite.locais.count }} local(is)
+                    </span>
+
+                    <span class="session-action">
+                        Gerir locais →
+                    </span>
+                </a>
+
+                <!-- SESSÃO 05: PRESENTES -->
+
+                <a href="{% url 'gerir_presentes' convite.slug %}"
+                   class="session-card">
+
+                    <span class="session-number">05</span>
+                    <span class="session-icon" aria-hidden="true">♧</span>
+
+                    <span class="session-title">Lista de presentes</span>
+
+                    <span class="session-description">
+                        Adicione, edite e remova presentes da lista.
+                    </span>
+
+                    <span class="session-count">
+                        {{ convite.presentes.count }} presente(s)
+                    </span>
+
+                    <span class="session-action">
+                        Gerir presentes →
+                    </span>
+                </a>
+
+                <!-- SESSÃO 06: PRÉ-VISUALIZAÇÃO -->
+
+                <a href="{% url 'visualizar_convite' convite.slug %}"
+                   class="session-card">
+
+                    <span class="session-number">06</span>
+                    <span class="session-icon" aria-hidden="true">◉</span>
+
+                    <span class="session-title">Pré-visualização</span>
+
+                    <span class="session-description">
+                        Confira a apresentação do convite antes de o partilhar.
+                    </span>
+
+                    <span class="session-action">
+                        Ver convite →
+                    </span>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- SESSÃO 01: DADOS DO EVENTO -->
+
+        <section class="event-edit-section" id="dados-evento">
+
+            <div class="section-heading">
+                <span class="eyebrow">SESSÃO 01</span>
+                <h2>Dados do evento</h2>
+                <p>
+                    Actualize as informações principais do seu evento.
+                    A música é gerida numa sessão separada.
+                </p>
+            </div>
+
+            <form method="post"
+                  class="editor-form"
+                  enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="error-message">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                {{ form.tipo_evento.as_hidden }}
+                {{ form.template.as_hidden }}
+
+                <div class="field">
+                    <label for="{{ form.titulo.id_for_label }}">
+                        Título do convite *
+                    </label>
+
+                    {{ form.titulo }}
+                    {{ form.titulo.errors }}
+                </div>
+
+                <div class="field-row">
+
+                    <div class="field">
+                        <label for="{{ form.data_evento.id_for_label }}">
+                            Data do evento
+                        </label>
+
+                        {{ form.data_evento }}
+                        {{ form.data_evento.errors }}
+                    </div>
+
+                    <div class="field">
+                        <label for="{{ form.hora_evento.id_for_label }}">
+                            Hora
+                        </label>
+
+                        {{ form.hora_evento }}
+                        {{ form.hora_evento.errors }}
+                    </div>
+
+                </div>
+
+                <div class="field">
+                    <label for="{{ form.local_evento.id_for_label }}">
+                        Local do evento
+                    </label>
+
+                    {{ form.local_evento }}
+                    {{ form.local_evento.errors }}
+                </div>
+
+                <div class="field">
+                    <label for="{{ form.descricao.id_for_label }}">
+                        Mensagem do convite
+                    </label>
+
+                    {{ form.descricao }}
+                    {{ form.descricao.errors }}
+                </div>
+
+                <div class="field">
+                    <label>Design actual</label>
+
+                    <div class="template-value">
+                        {{ convite.get_template_display|default:convite.template }}
+                    </div>
+
+                    <p class="field-help">
+                        Para alterar o design, utilize a sessão
+                        “Design do convite”.
+                    </p>
+                </div>
+
+                <div class="form-actions">
+
+                    <a href="{% url 'meus_convites' %}"
+                       class="cancel-button">
+                        Meus convites
+                    </a>
+
+                    <a href="{% url 'visualizar_convite' convite.slug %}"
+                       class="cancel-button">
+                        Pré-visualizar
+                    </a>
+
+                    <button type="submit" class="save-button">
+                        Guardar dados →
+                    </button>
+
+                </div>
+
+            </form>
+        </section>
+
+        <!-- SESSÃO 03: MÚSICA -->
+
+        <section class="music-session session-card" id="musica-convite">
+
+            <span class="session-number">SESSÃO 03</span>
+            <span class="session-icon" aria-hidden="true">♫</span>
+
+            <div class="section-heading">
+                <h2>Música do convite</h2>
+                <p>
+                    Gere a música sem alterar o título, a data, o local
+                    ou o design do seu convite.
+                </p>
+            </div>
+
+            {% if convite.musica %}
+                <div class="music-current">
+
+                    <div class="music-current-label">
+                        Música actualmente associada
+                    </div>
+
+                    <div class="music-status">
+                        {% if convite.reproduzir_musica %}
+                            Reprodução disponibilizada
+                        {% else %}
+                            Reprodução desactivada
+                        {% endif %}
+                    </div>
+
+                    <audio class="music-player"
+                           controls
+                           preload="metadata">
+                        <source src="{{ convite.musica.url }}">
+                        O navegador não suporta a reprodução de áudio.
+                    </audio>
+
+                    <a href="{{ convite.musica.url }}"
+                       target="_blank"
+                       rel="noopener">
+                        Abrir ficheiro de música
+                    </a>
+
+                </div>
+            {% else %}
+                <div class="music-empty">
+                    Ainda não foi adicionada nenhuma música a este convite.
+                    Podes carregar um ficheiro abaixo.
                 </div>
             {% endif %}
 
-            {{ form.tipo_evento.as_hidden }}
-            {{ form.template.as_hidden }}
+            <!-- FORMULÁRIO INDEPENDENTE PARA GUARDAR MÚSICA -->
 
-            <div class="field">
-                <label for="{{ form.titulo.id_for_label }}">Título do convite *</label>
-                {{ form.titulo }}
-                {{ form.titulo.errors }}
-            </div>
+            <form method="post"
+                  enctype="multipart/form-data"
+                  class="music-edit-section">
 
-            <div class="field-row">
-                <div class="field">
-                    <label for="{{ form.data_evento.id_for_label }}">Data do evento</label>
-                    {{ form.data_evento }}
-                    {{ form.data_evento.errors }}
-                </div>
+                {% csrf_token %}
+
+                <input type="hidden" name="acao" value="guardar_musica">
 
                 <div class="field">
-                    <label for="{{ form.hora_evento.id_for_label }}">Hora</label>
-                    {{ form.hora_evento }}
-                    {{ form.hora_evento.errors }}
+                    <label for="musica">
+                        {% if convite.musica %}
+                            Substituir música
+                        {% else %}
+                            Escolher música
+                        {% endif %}
+                    </label>
+
+                    <input type="file"
+                           name="musica"
+                           id="musica"
+                           class="music-file-input"
+                           accept=".mp3,.wav,.ogg,.m4a,.aac,.flac,audio/*">
+
+                    <p class="music-file-hint">
+                        Formatos aceites: MP3, WAV, OGG, M4A, AAC e FLAC.
+                        Se não seleccionares um ficheiro, a música actual
+                        será mantida.
+                    </p>
                 </div>
-            </div>
 
-            <div class="field">
-                <label for="{{ form.local_evento.id_for_label }}">Local do evento</label>
-                {{ form.local_evento }}
-                {{ form.local_evento.errors }}
-            </div>
+                <label class="music-option" for="reproduzir_musica">
+                    <input type="checkbox"
+                           name="reproduzir_musica"
+                           id="reproduzir_musica"
+                           {% if convite.reproduzir_musica %}checked{% endif %}>
 
-            <div class="field">
-                <label for="{{ form.descricao.id_for_label }}">Mensagem do convite</label>
-                {{ form.descricao }}
-                {{ form.descricao.errors }}
-            </div>
+                    <span>
+                        Disponibilizar a música para reprodução no convite
+                        público.
+                    </span>
+                </label>
 
-            <div class="field">
-                <label>Template selecionado</label>
-                <div class="template-value">
-                    {{ convite.template }}
+                <div class="music-actions">
+                    <button type="submit" class="save-button">
+                        Guardar música →
+                    </button>
                 </div>
-                <a href="{% url 'dados_convite' convite.tipo_evento %}"
-                   class="change-template">
-                    Escolher outro template
-                </a>
+
+            </form>
+
+            <!-- FORMULÁRIO INDEPENDENTE PARA REMOVER MÚSICA -->
+
+            {% if convite.musica %}
+                <form method="post"
+                      class="music-actions"
+                      onsubmit="return confirm('Tens a certeza de que pretendes remover a música deste convite?');">
+
+                    {% csrf_token %}
+
+                    <input type="hidden" name="acao" value="remover_musica">
+
+                    <button type="submit" class="music-remove-button">
+                        Remover música
+                    </button>
+
+                </form>
+            {% endif %}
+
+        </section>
+
+        <!-- PUBLICAÇÃO -->
+
+        <section class="publish-section">
+
+            <div class="section-heading">
+                <span class="eyebrow">ETAPA FINAL</span>
+                <h2>Publicação do convite</h2>
+
+                <p>
+                    Confira os dados e a apresentação antes de disponibilizar
+                    o convite aos convidados.
+                </p>
             </div>
 
-            
-        <div class="form-actions">
-            <a href="{% url 'meus_convites' %}" class="cancel-button">
-                Meus convites
-            </a>
+            <form method="post"
+                  action="{% url 'publicar_convite' convite.slug %}"
+                  class="publish-form">
 
-            <a href="{% url 'visualizar_convite' convite.slug %}"
-            class="cancel-button">
-                Pré-visualizar
-            </a>
+                {% csrf_token %}
 
-            <button type="submit" class="save-button">
-                Guardar alterações →
-            </button>
-        </div>
-    </form>
+                {% if convite.status == 'publicado' %}
+                    <p>Este convite está publicado.</p>
+                {% else %}
+                    <button type="submit" class="publish-button">
+                        Publicar convite
+                    </button>
+                {% endif %}
 
-    <form method="post"
-        action="{% url 'publicar_convite' convite.slug %}"
-        class="publish-form">
-        {% csrf_token %}
+            </form>
 
-        {% if convite.status == 'publicado' %}
-            <p>Este convite está publicado.</p>
-        {% else %}
-            <button type="submit" class="publish-button">
-                Publicar convite
-            </button>
-        {% endif %}
-    </form>
-
+        </section>
 
     </section>
 
+    <!-- PRÉ-VISUALIZAÇÃO LATERAL -->
+
     <aside class="preview-panel">
+
         <div class="preview-heading">
             <span class="eyebrow">PRÉ-VISUALIZAÇÃO</span>
-            <span class="preview-live">Rascunho</span>
+
+            <span class="preview-live">
+                {% if convite.status == 'publicado' %}
+                    Publicado
+                {% else %}
+                    Rascunho
+                {% endif %}
+            </span>
         </div>
 
-        <div class="invitation-preview {{ convite.template }}" id="invitationPreview">
+        <div class="invitation-preview {{ convite.template }}"
+             id="invitationPreview">
 
             <span class="preview-kicker">
                 {{ convite.get_tipo_evento_display|upper }}
@@ -167,9 +536,10 @@
         </div>
 
         <p class="preview-note">
-            Esta é uma pré-visualização básica. O design final será refinado
-            na etapa de personalização.
+            Esta é uma pré-visualização básica.
+            Utilize a opção de pré-visualização para conferir o convite completo.
         </p>
+
     </aside>
 
 </main>

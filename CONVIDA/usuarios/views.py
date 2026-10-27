@@ -4,6 +4,9 @@ from django.shortcuts import redirect, render
 
 from .forms import CadastroUsuarioForm, LoginUsuarioForm
 
+from convites.models import Convite
+from convidados.models import Convidado
+
 
 def gerar_username(usuario):
 
@@ -59,7 +62,110 @@ def cadastro(request):
 
 
 @login_required
+
+@login_required
 def dashboard(request):
+    # Convites do utilizador autenticado
+    convites = Convite.objects.filter(
+        usuario=request.user
+    ).order_by('-criado_em')
+
+    # Estatísticas de convites
+    total_convites = convites.count()
+
+    total_publicados = convites.filter(
+        status='publicado'
+    ).count()
+
+    total_rascunhos = convites.filter(
+        status='rascunho'
+    ).count()
+
+    total_arquivados = convites.filter(
+        status='arquivado'
+    ).count()
+
+    # Convidados associados aos convites deste utilizador
+    convidados = Convidado.objects.filter(
+        convite__usuario=request.user
+    )
+
+    total_convidados = convidados.count()
+
+    # Respostas dos convidados
+    total_confirmacoes = convidados.filter(
+        status='confirmado'
+    ).count()
+
+    total_pendentes = convidados.filter(
+        status='pendente'
+    ).count()
+
+    total_recusados = convidados.filter(
+        status='recusado'
+    ).count()
+
+    # Cinco convites mais recentes
+    convites_recentes = convites[:5]
+
+    contexto = {
+        'convites': convites,
+        'convites_recentes': convites_recentes,
+
+        'total_convites': total_convites,
+        'total_publicados': total_publicados,
+        'total_rascunhos': total_rascunhos,
+        'total_arquivados': total_arquivados,
+
+        'total_convidados': total_convidados,
+        'total_confirmacoes': total_confirmacoes,
+        'total_pendentes': total_pendentes,
+        'total_recusados': total_recusados,
+    }
+
+    return render(
+        request,
+        'html/usuarios/dashboard.html',
+        contexto
+    )
+
+    # Convites pertencentes ao utilizador autenticado
+    convites = Convite.objects.filter(
+        usuario=request.user
+    ).order_by('-criado_em')
+
+    # Estatísticas reais
+    total_convites = convites.count()
+
+    total_publicados = convites.filter(
+        status='publicado'
+    ).count()
+
+    total_rascunhos = convites.filter(
+        status='rascunho'
+    ).count()
+
+    total_arquivados = convites.filter(
+        status='arquivado'
+    ).count()
+
+    # Convites mais recentes para apresentar no dashboard
+    convites_recentes = convites[:5]
+
+    contexto = {
+        'convites': convites,
+        'convites_recentes': convites_recentes,
+        'total_convites': total_convites,
+        'total_publicados': total_publicados,
+        'total_rascunhos': total_rascunhos,
+        'total_arquivados': total_arquivados,
+    }
+
+    return render(
+        request,
+        'html/usuarios/dashboard.html',
+        contexto
+    )
 
     return render(
         request,

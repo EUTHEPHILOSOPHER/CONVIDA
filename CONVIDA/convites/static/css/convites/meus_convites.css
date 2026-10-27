@@ -49,7 +49,7 @@ a {
     background: var(--obsidian);
     color: #fff;
 
-    padding: 28px 18px;
+    padding: 18px 18px;
 
     z-index: 100;
 }
@@ -60,7 +60,7 @@ a {
     gap: 10px;
 
     padding: 0 12px;
-    margin-bottom: 48px;
+    margin-bottom: 30px;
 }
 
 .brand-mark {
@@ -105,7 +105,7 @@ a {
 
     color: #9da2ac;
 
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
 
     transition: .2s ease;
@@ -700,5 +700,508 @@ a {
         scroll-behavior: auto !important;
         transition: none !important;
         animation: none !important;
+    }
+}
+
+
+/* =====================================================
+   CONVIDA — GESTÃO DE CONVITES
+   Identidade visual alinhada com o dashboard
+===================================================== */
+
+:root {
+    --convida-blue-dark: #2086D5;
+    --convida-blue: #3C9AE2;
+    --convida-blue-light: #5AA9E6;
+    --convida-black: #262626;
+    --convida-white: #FFFFFF;
+    --convida-bg: #F5F9FD;
+    --convida-muted: #64748B;
+    --convida-border: #E1EAF3;
+    --convida-radius: 18px;
+    --convida-shadow: 0 8px 24px rgba(32, 134, 213, 0.08);
+    --convida-shadow-hover: 0 14px 30px rgba(32, 134, 213, 0.14);
+}
+
+body {
+    background: var(--convida-bg);
+    color: var(--convida-black);
+    font-family: "Inter", sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+.content {
+    padding: 32px;
+}
+
+.page-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 30px;
+}
+
+.page-heading h1 {
+    margin: 8px 0;
+    font-family: "Manrope", sans-serif;
+    font-size: clamp(26px, 3vw, 34px);
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.page-heading p {
+    color: var(--convida-muted);
+    line-height: 1.7;
+}
+
+.eyebrow {
+    color: var(--convida-blue-dark);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.invitation-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.invitation-card {
+    min-width: 0;
+    overflow: hidden;
+    background: var(--convida-white);
+    border: 1px solid var(--convida-border);
+    border-radius: var(--convida-radius);
+    box-shadow: var(--convida-shadow);
+    transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.invitation-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--convida-shadow-hover);
+}
+
+.invitation-preview {
+    position: relative;
+    min-height: 210px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 12px;
+    padding: 26px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #EDF6FD, #DCEEFF);
+}
+
+.preview-label {
+    color: var(--convida-blue-dark);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+.invitation-preview h2 {
+    position: relative;
+    margin: 0;
+    overflow-wrap: anywhere;
+    font-family: "Manrope", sans-serif;
+    font-size: 23px;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.invitation-preview p {
+    margin: 0;
+    color: #526579;
+    font-size: 13px;
+}
+
+.preview-template {
+    padding: 6px 10px;
+    border: 1px solid rgba(32, 134, 213, 0.18);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.8);
+    color: #526579;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.invitation-info {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: 22px;
+}
+
+.invitation-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.invitation-meta > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.meta-label {
+    color: var(--convida-muted);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.meta-value {
+    color: var(--convida-black);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.status-rascunho {
+    background: #F1F5F9;
+    color: #475569;
+}
+
+.status-publicado {
+    background: #E5F5EC;
+    color: #207447;
+}
+
+.status-arquivado {
+    background: #FFF3DF;
+    color: #93621A;
+}
+
+.card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 9px;
+    padding-top: 16px;
+    border-top: 1px solid var(--convida-border);
+}
+
+.delete-form {
+    display: inline-flex;
+    margin: 0;
+}
+
+.action-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 38px;
+    padding: 9px 12px;
+    border: 1px solid var(--convida-border);
+    border-radius: 10px;
+    background: #FFFFFF;
+    color: var(--convida-black);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 180ms ease, color 180ms ease,
+                border-color 180ms ease, transform 180ms ease;
+}
+
+.action-button:hover {
+    transform: translateY(-1px);
+}
+
+.action-edit {
+    border-color: var(--convida-blue-dark);
+    background: var(--convida-blue-dark);
+    color: #FFFFFF;
+}
+
+.action-edit:hover {
+    border-color: #176FB3;
+    background: #176FB3;
+    color: #FFFFFF;
+}
+
+.action-preview {
+    background: #EDF6FD;
+    border-color: #D6EAFB;
+    color: #176FB3;
+}
+
+.action-preview:hover {
+    background: #DCEEFF;
+}
+
+.action-public {
+    border-color: #B9E2CA;
+    background: #F0FAF4;
+    color: #207447;
+}
+
+.action-public:hover {
+    background: #E0F4E8;
+}
+
+.action-delete {
+    border-color: #F1D2D2;
+    background: #FFFFFF;
+    color: #B42323;
+}
+
+.action-delete:hover {
+    border-color: #B42323;
+    background: #FFF0F0;
+}
+
+.action-button:focus-visible,
+.primary-button:focus-visible {
+    outline: 3px solid var(--convida-blue-light);
+    outline-offset: 3px;
+}
+
+.empty-state {
+    padding: 56px 24px;
+    border: 1px dashed #C8DCEC;
+    border-radius: var(--convida-radius);
+    background: #FFFFFF;
+    text-align: center;
+}
+
+.empty-state h2 {
+    font-family: "Manrope", sans-serif;
+    font-weight: 800;
+}
+
+.empty-state p {
+    max-width: 520px;
+    margin: 12px auto 24px;
+    color: var(--convida-muted);
+    line-height: 1.7;
+}
+
+@media (max-width: 1100px) {
+    .invitation-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    .content {
+        padding: 22px 16px;
+    }
+
+    .page-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .invitation-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .invitation-preview {
+        min-height: 180px;
+    }
+
+    .card-actions {
+        align-items: stretch;
+    }
+
+    .action-button {
+        flex: 1 1 auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .invitation-card,
+    .action-button {
+        transition: none;
+    }
+
+    .invitation-card:hover,
+    .action-button:hover {
+        transform: none;
+    }
+}
+
+.sidebar {
+    background: #2086D5;
+    color: #FFFFFF;
+}
+
+.sidebar a {
+    color: #FFFFFF;
+}
+
+.sidebar a:hover {
+    background: #176FB3;
+    color: #FFFFFF;
+}
+
+.sidebar a.active,
+.sidebar a[aria-current="page"] {
+    background: #5AA9E6;
+    color: #FFFFFF;
+    border-radius: 10px;
+}
+
+.sidebar .logo,
+.sidebar .logo a {
+    color: #FFFFFF;
+}
+
+.sidebar .nav-icon {
+    color: #FFFFFF;
+}
+
+/* Navbar sem título, com perfil alinhado à direita */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+}
+
+.topbar-user {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+}
+
+.user-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    overflow: hidden;
+    border: 2px solid #DCEEFF;
+    border-radius: 50%;
+    background: #2086D5;
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: 700;
+    box-shadow: 0 3px 10px rgba(32, 134, 213, 0.16);
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Botão Criar convite em azul */
+.primary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 12px 20px;
+    border: 1px solid #2086D5;
+    border-radius: 12px;
+    background: #2086D5;
+    color: #FFFFFF;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 5px 14px rgba(32, 134, 213, 0.18);
+    transition: background 180ms ease,
+                border-color 180ms ease,
+                transform 180ms ease,
+                box-shadow 180ms ease;
+}
+
+.primary-button:hover {
+    border-color: #176FB3;
+    background: #176FB3;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(32, 134, 213, 0.24);
+}
+
+.primary-button span {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.primary-button:focus-visible {
+    outline: 3px solid #5AA9E6;
+    outline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+    .topbar {
+        justify-content: space-between;
+    }
+
+    .topbar-user {
+        margin-left: auto;
+    }
+
+    .page-heading .primary-button {
+        width: 100%;
+    }
+}
+
+.topbar-user {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-left: auto;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    min-width: 0;
+}
+
+.user-name {
+    max-width: 220px;
+    overflow: hidden;
+    color: #262626;
+    font-size: 15px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.user-account-label {
+    color: #64748B;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.user-avatar {
+    flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+    .user-name {
+        max-width: 135px;
+        font-size: 12px;
+    }
+
+    .user-account-label {
+        font-size: 10px;
     }
 }

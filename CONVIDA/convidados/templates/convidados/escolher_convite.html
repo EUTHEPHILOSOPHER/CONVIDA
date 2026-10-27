@@ -1,0 +1,121 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Convidados — CONVIDA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{% static 'css/convidados/escolher_convite.css' %}">
+</head>
+
+<body>
+<main class="page">
+
+    <aside class="sidebar">
+        <a href="{% url 'dashboard' %}" class="brand">
+            <span class="brand-mark">C</span>
+            <span>CONVIDA</span>
+        </a>
+
+        <nav class="sidebar-nav">
+            <a href="{% url 'dashboard' %}" class="nav-item">
+                <span>⌂</span> Dashboard
+            </a>
+
+            <a href="{% url 'meus_convites' %}" class="nav-item">
+                <span>▧</span> Meus convites
+            </a>
+
+            <a href="{% url 'convidados:escolher_convite_convidados' %}"
+               class="nav-item active">
+                <span>♙</span> Convidados
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>◷</span> Confirmações
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="{% url 'logout' %}" class="nav-item logout">
+                <span>↪</span> Sair
+            </a>
+        </div>
+    </aside>
+
+    <section class="main">
+        <header class="topbar">
+            <div>
+                <span class="eyebrow">GESTÃO DO EVENTO</span>
+                <h1>Convidados</h1>
+                <p>Escolha um convite para gerir a sua lista de convidados.</p>
+            </div>
+        </header>
+
+        <section class="content">
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            {% if convites %}
+                <div class="invitation-grid">
+                    {% for convite in convites %}
+                        <article class="invitation-card">
+                            <div class="card-icon">♙</div>
+
+                            <span class="event-type">
+                                {{ convite.get_tipo_evento_display }}
+                            </span>
+
+                            <h2>{{ convite.titulo }}</h2>
+
+                            {% if convite.data_evento %}
+                                <p class="event-date">
+                                    {{ convite.data_evento|date:"d/m/Y" }}
+                                </p>
+                            {% endif %}
+
+                            <div class="card-footer">
+                                <span class="status status-{{ convite.status }}">
+                                    {{ convite.get_status_display }}
+                                </span>
+
+                                <a href="{% url 'convidados:lista_convidados' convite.slug %}"
+                                   class="primary-button">
+                                    Gerir convidados →
+                                </a>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">♙</div>
+                    <h2>Ainda não tem convites</h2>
+                    <p>Crie primeiro um convite para poder adicionar e gerir os seus convidados.</p>
+
+                    <a href="{% url 'criar_convite' %}" class="primary-button">
+                        Criar convite
+                    </a>
+                </div>
+            {% endif %}
+
+        </section>
+    </section>
+</main>
+</body>
+</html>

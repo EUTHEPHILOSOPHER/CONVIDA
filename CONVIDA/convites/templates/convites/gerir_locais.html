@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locais do evento — CONVIDA</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 32px 16px;
+            background: #f7f8fa;
+            color: #20242c;
+            font-family: Inter, Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+        }
+
+        h1 { margin: 0 0 8px; font-size: 28px; }
+        .muted { color: #737b89; line-height: 1.6; }
+
+        a { color: inherit; text-decoration: none; }
+
+        .button {
+            display: inline-block;
+            padding: 11px 16px;
+            border-radius: 10px;
+            background: #20242c;
+            color: white;
+            border: 0;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .button-light {
+            background: white;
+            color: #20242c;
+            border: 1px solid #e0e3e9;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e7e9ee;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 14px;
+        }
+
+        .card h2 { margin: 0 0 10px; font-size: 19px; }
+        .details { line-height: 1.8; color: #626b79; }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+
+        .delete-form { margin: 0; }
+
+        .message {
+            padding: 12px 15px;
+            background: #fff;
+            border: 1px solid #e7e9ee;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 42px 20px;
+            background: white;
+            border: 1px dashed #d5d9e2;
+            border-radius: 16px;
+        }
+
+        @media (max-width: 520px) {
+            .header { align-items: stretch; flex-direction: column; }
+            .header .button { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+<main class="container">
+    <header class="header">
+        <div>
+            <p class="muted">CONVIDA / {{ convite.titulo }}</p>
+            <h1>Locais do evento</h1>
+            <p class="muted">
+                Organiza os locais, as atividades e os horários do teu evento.
+            </p>
+        </div>
+
+        <a class="button" href="{% url 'adicionar_local' convite.slug %}">
+            + Adicionar local
+        </a>
+    </header>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% for local in locais %}
+        <article class="card">
+            <h2>{{ local.ordem }}. {{ local.nome }}</h2>
+
+            <div class="details">
+                <div><strong>Atividade:</strong> {{ local.atividade }}</div>
+
+                {% if local.data %}
+                    <div><strong>Data:</strong> {{ local.data|date:"d/m/Y" }}</div>
+                {% endif %}
+
+                {% if local.hora %}
+                    <div><strong>Hora:</strong> {{ local.hora|time:"H:i" }}</div>
+                {% endif %}
+
+                <div>
+                    <strong>Localização:</strong> {{ local.localizacao }}
+                </div>
+            </div>
+
+            <div class="actions">
+                <a class="button button-light"
+                   href="{% url 'editar_local' convite.slug local.pk %}">
+                    Editar
+                </a>
+
+                <form class="delete-form" method="post"
+                      action="{% url 'remover_local' convite.slug local.pk %}"
+                      onsubmit="return confirm('Tens a certeza de que queres remover este local?');">
+                    {% csrf_token %}
+                    <button class="button button-light" type="submit">
+                        Remover
+                    </button>
+                </form>
+            </div>
+        </article>
+    {% empty %}
+        <div class="empty">
+            <h2>Ainda não existem locais</h2>
+            <p class="muted">
+                Adiciona a primeira etapa do evento para começar a organizar o programa.
+            </p>
+            <a class="button" href="{% url 'adicionar_local' convite.slug %}">
+                Adicionar primeiro local
+            </a>
+        </div>
+    {% endfor %}
+
+    <p>
+        <a class="muted" href="{% url 'editar_convite' convite.slug %}">
+            ← Voltar ao convite
+        </a>
+    </p>
+</main>
+</body>
+</html>

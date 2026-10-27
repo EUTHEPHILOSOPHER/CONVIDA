@@ -9,6 +9,8 @@
     --gray: #737985;
     --border: #e5e8ec;
     --background: #f7f8fa;
+    --success: #198754;
+    --danger: #b42318;
 }
 
 body {
@@ -22,12 +24,20 @@ a {
     text-decoration: none;
 }
 
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
 .topbar {
-    height: 72px;
+    min-height: 72px;
     padding: 0 5%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
     background: white;
     border-bottom: 1px solid var(--border);
 }
@@ -35,6 +45,10 @@ a {
 .back-link {
     color: var(--gray);
     font-size: 13px;
+}
+
+.back-link:hover {
+    color: var(--blue);
 }
 
 .brand {
@@ -90,6 +104,7 @@ a {
 
 .editor-form,
 .preview-panel {
+    min-width: 0;
     background: white;
     border: 1px solid var(--border);
     border-radius: 20px;
@@ -117,8 +132,8 @@ a {
     border-radius: 10px;
     background: white;
     color: var(--black);
-    font: inherit;
     font-size: 14px;
+    transition: border-color .2s ease, box-shadow .2s ease;
 }
 
 textarea.form-control {
@@ -127,8 +142,9 @@ textarea.form-control {
 }
 
 .form-control:focus {
-    outline: 3px solid rgba(37, 151, 208, .12);
+    outline: none;
     border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(37, 151, 208, .12);
 }
 
 .field-row {
@@ -139,7 +155,7 @@ textarea.form-control {
 
 .field .errorlist,
 .error-message {
-    color: #b42318;
+    color: var(--danger);
     font-size: 12px;
 }
 
@@ -169,21 +185,27 @@ textarea.form-control {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     padding: 0 17px;
     border-radius: 11px;
-    font: inherit;
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
+    transition: background .2s ease, color .2s ease, border-color .2s ease;
 }
 
 .cancel-button {
     color: var(--gray);
     border: 1px solid var(--border);
+    background: white;
+}
+
+.cancel-button:hover {
+    border-color: #c5cbd3;
+    color: var(--black);
 }
 
 .save-button {
-    gap: 10px;
     border: 0;
     background: var(--black);
     color: white;
@@ -192,6 +214,8 @@ textarea.form-control {
 .save-button:hover {
     background: var(--blue);
 }
+
+/* Pré-visualização do convite */
 
 .preview-panel {
     position: sticky;
@@ -291,6 +315,282 @@ textarea.form-control {
     line-height: 1.7;
 }
 
+/* Sessões de edição */
+
+.sessions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.session-card {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 22px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(8, 9, 11, .025);
+}
+
+.session-number {
+    color: var(--blue);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.session-icon {
+    color: var(--blue);
+    font-size: 25px;
+    line-height: 1;
+}
+
+.session-title {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.session-description {
+    color: var(--gray);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.session-action {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 4px;
+    padding: 0 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: white;
+    color: var(--black);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.session-action:hover {
+    border-color: var(--blue);
+    background: var(--blue);
+    color: white;
+}
+
+/* Sessão de música */
+
+.music-session {
+    grid-column: 1 / -1;
+}
+
+.music-edit-section {
+    width: 100%;
+    margin-top: 6px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.music-edit-section h3 {
+    margin: 0 0 8px;
+    font-size: 15px;
+}
+
+.music-help {
+    margin: 0 0 18px;
+    color: var(--gray);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.music-current {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #fafbfc;
+}
+
+.music-current-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--black);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.music-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--success);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.music-player {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-height: 40px;
+}
+
+.music-file-input {
+    display: block;
+    width: 100%;
+    min-height: 46px;
+    padding: 10px;
+    border: 1px dashed #cbd3dc;
+    border-radius: 10px;
+    background: #fafbfc;
+    color: var(--gray);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.music-file-input:focus {
+    outline: 3px solid rgba(37, 151, 208, .12);
+    border-color: var(--blue);
+}
+
+.music-file-hint {
+    margin: -12px 0 20px;
+    color: var(--gray);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.music-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 12px 0 20px;
+    color: var(--black);
+    font-size: 12px;
+    line-height: 1.6;
+    cursor: pointer;
+}
+
+.music-option input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin: 1px 0 0;
+    accent-color: var(--blue);
+    cursor: pointer;
+}
+
+.music-actions {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.music-remove-button {
+    min-height: 42px;
+    padding: 0 14px;
+    border: 1px solid #f0c8c5;
+    border-radius: 10px;
+    background: white;
+    color: var(--danger);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.music-remove-button:hover {
+    background: #fff1f0;
+}
+
+.music-empty {
+    padding: 16px;
+    border: 1px dashed #d6dce3;
+    border-radius: 12px;
+    color: var(--gray);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+/* Publicação */
+
+.publish-form {
+    margin-top: 16px;
+    text-align: right;
+}
+
+.publish-form p {
+    color: var(--success);
+    font-size: 13px;
+}
+
+.publish-button {
+    min-height: 46px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 11px;
+    background: var(--success);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s ease;
+}
+
+.publish-button:hover {
+    background: #146c43;
+}
+
+/* Mensagens Django */
+
+.messages {
+    margin: 0 0 20px;
+    padding: 0;
+    list-style: none;
+}
+
+.messages li {
+    margin-bottom: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: white;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.messages li.success {
+    border-color: #b7e3cb;
+    background: #f0fff6;
+    color: #146c43;
+}
+
+.messages li.error {
+    border-color: #f0c8c5;
+    background: #fff1f0;
+    color: var(--danger);
+}
+
+.messages li.warning {
+    border-color: #f5dfad;
+    background: #fff9e9;
+    color: #8a6100;
+}
+
+/* Responsividade */
+
 @media (max-width: 900px) {
     .editor-layout {
         grid-template-columns: 1fr;
@@ -305,9 +605,21 @@ textarea.form-control {
     }
 }
 
+@media (max-width: 650px) {
+    .sessions-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .music-session {
+        grid-column: auto;
+    }
+}
+
 @media (max-width: 560px) {
     .topbar {
+        min-height: 64px;
         padding: 0 15px;
+        gap: 10px;
     }
 
     .back-link {
@@ -318,6 +630,12 @@ textarea.form-control {
         font-size: 12px;
     }
 
+    .draft-badge,
+    .preview-live {
+        padding: 6px 8px;
+        font-size: 10px;
+    }
+
     .editor-layout {
         padding: 28px 14px;
         gap: 22px;
@@ -326,6 +644,7 @@ textarea.form-control {
     .editor-form,
     .preview-panel {
         padding: 20px 16px;
+        border-radius: 16px;
     }
 
     .field-row {
@@ -341,33 +660,25 @@ textarea.form-control {
     .save-button {
         width: 100%;
     }
+
+    .session-card {
+        padding: 18px;
+    }
+
+    .music-actions {
+        flex-direction: column;
+    }
+
+    .music-actions .save-button,
+    .music-actions .music-remove-button {
+        width: 100%;
+    }
+
+    .publish-form {
+        text-align: center;
+    }
+
+    .publish-button {
+        width: 100%;
+    }
 }
-
-
-.publish-form {
-    margin-top: 16px;
-    text-align: right;
-}
-
-.publish-form p {
-    color: #198754;
-    font-size: 13px;
-}
-
-.publish-button {
-    min-height: 46px;
-    padding: 0 20px;
-    border: 0;
-    border-radius: 11px;
-    background: #198754;
-    color: white;
-    font: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.publish-button:hover {
-    background: #146c43;
-}
-

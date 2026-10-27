@@ -1,0 +1,128 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ titulo_pagina }} | CONVIDA</title>
+    <link rel="stylesheet" href="{% static 'css/convites/editar_convite.css' %}">
+    <style>
+        .gift-form-page {
+            max-width: 720px;
+            margin: 40px auto;
+            padding: 24px;
+        }
+
+        .gift-form-card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 28px;
+        }
+
+        .gift-form-field { margin-bottom: 22px; }
+
+        .gift-form-field label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .gift-form-field input:not([type="checkbox"]),
+        .gift-form-field textarea,
+        .gift-form-field select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #d9dde4;
+            border-radius: 9px;
+            font: inherit;
+        }
+
+        .gift-form-field input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+
+        .gift-errors { color: #b42318; margin-top: 6px; }
+        .gift-help { color: #737985; font-size: .9rem; }
+
+        .gift-button {
+            display: inline-block;
+            padding: 11px 16px;
+            border-radius: 9px;
+            border: 1px solid #d9dde4;
+            text-decoration: none;
+            color: #08090b;
+            background: #fff;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .gift-button-primary {
+            background: #08090b;
+            color: #fff;
+            border-color: #08090b;
+        }
+
+        .gift-form-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .gift-form-page { margin: 15px auto; padding: 16px; }
+            .gift-form-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+<main class="gift-form-page">
+    <p>CONVIDA / {{ convite.titulo }}</p>
+    <h1>{{ titulo_pagina }}</h1>
+    <p>Adiciona ou actualiza um presente para este evento.</p>
+
+    <section class="gift-form-card">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="gift-errors">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="gift-form-field">
+                    {% if field.field.widget.input_type == 'checkbox' %}
+                        <label>{{ field }} {{ field.label }}</label>
+                    {% else %}
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                    {% endif %}
+
+                    {% if field.help_text %}
+                        <p class="gift-help">{{ field.help_text }}</p>
+                    {% endif %}
+
+                    {% for error in field.errors %}
+                        <div class="gift-errors">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <div class="gift-form-actions">
+                <button class="gift-button gift-button-primary" type="submit">
+                    Guardar presente
+                </button>
+                <a class="gift-button"
+                   href="{% url 'gerir_presentes' convite.slug %}">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </section>
+</main>
+</body>
+</html>

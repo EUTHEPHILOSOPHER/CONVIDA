@@ -14,6 +14,7 @@
 </head>
 
 <body>
+
 <header class="header">
     <a href="{% url 'dados_convite' tipo_evento %}" class="back">
         ← Voltar aos templates
@@ -25,52 +26,105 @@
 </header>
 
 <main class="container">
+
     <div class="intro">
         <span class="eyebrow">{{ tipo_evento_nome|upper }}</span>
+
         <h1>Conte-nos sobre o evento</h1>
-        <p>Preencha os detalhes. Poderá personalizar o convite depois.</p>
+
+        <p>
+            Preencha os dados principais do seu evento.
+            Depois poderá continuar a personalizar o convite.
+        </p>
     </div>
 
-    <form method="post" class="event-form">
+    <form method="post"
+          class="event-form"
+          enctype="multipart/form-data">
+
         {% csrf_token %}
 
         {% if form.non_field_errors %}
-            <div class="errors">{{ form.non_field_errors }}</div>
+            <div class="errors">
+                {{ form.non_field_errors }}
+            </div>
         {% endif %}
 
         {{ form.tipo_evento.as_hidden }}
         {{ form.template.as_hidden }}
 
         <div class="field">
-            <label for="{{ form.titulo.id_for_label }}">Título do convite *</label>
+            <label for="{{ form.titulo.id_for_label }}">
+                Título do convite *
+            </label>
+
             {{ form.titulo }}
-            {{ form.titulo.errors }}
+
+            {% if form.titulo.errors %}
+                <div class="errors">
+                    {{ form.titulo.errors }}
+                </div>
+            {% endif %}
         </div>
 
         <div class="field-row">
+
             <div class="field">
-                <label for="{{ form.data_evento.id_for_label }}">Data do evento</label>
+                <label for="{{ form.data_evento.id_for_label }}">
+                    Data do evento
+                </label>
+
                 {{ form.data_evento }}
-                {{ form.data_evento.errors }}
+
+                {% if form.data_evento.errors %}
+                    <div class="errors">
+                        {{ form.data_evento.errors }}
+                    </div>
+                {% endif %}
             </div>
 
             <div class="field">
-                <label for="{{ form.hora_evento.id_for_label }}">Hora</label>
+                <label for="{{ form.hora_evento.id_for_label }}">
+                    Hora
+                </label>
+
                 {{ form.hora_evento }}
-                {{ form.hora_evento.errors }}
+
+                {% if form.hora_evento.errors %}
+                    <div class="errors">
+                        {{ form.hora_evento.errors }}
+                    </div>
+                {% endif %}
             </div>
+
         </div>
 
         <div class="field">
-            <label for="{{ form.local_evento.id_for_label }}">Local do evento</label>
+            <label for="{{ form.local_evento.id_for_label }}">
+                Local do evento
+            </label>
+
             {{ form.local_evento }}
-            {{ form.local_evento.errors }}
+
+            {% if form.local_evento.errors %}
+                <div class="errors">
+                    {{ form.local_evento.errors }}
+                </div>
+            {% endif %}
         </div>
 
         <div class="field">
-            <label for="{{ form.descricao.id_for_label }}">Mensagem ou descrição</label>
+            <label for="{{ form.descricao.id_for_label }}">
+                Mensagem ou descrição
+            </label>
+
             {{ form.descricao }}
-            {{ form.descricao.errors }}
+
+            {% if form.descricao.errors %}
+                <div class="errors">
+                    {{ form.descricao.errors }}
+                </div>
+            {% endif %}
         </div>
 
         <div class="selected-template">
@@ -81,7 +135,10 @@
         <button type="submit" class="submit-button">
             Guardar rascunho e continuar →
         </button>
+
     </form>
+
 </main>
+
 </body>
 </html>

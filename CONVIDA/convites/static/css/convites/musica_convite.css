@@ -1,0 +1,38 @@
+.musica-convite {
+    display: flex;
+    justify-content: center;
+    margin: 24px auto;
+    padding: 0 16px;
+}
+
+.botao-musica {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 13px 22px;
+    border: 1px solid rgba(25, 45, 75, 0.16);
+    border-radius: 999px;
+    background: #ffffff;
+    color: #243b5a;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(20, 35, 60, 0.07);
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.botao-musica:hover {
+    background: #f3f6fb;
+    transform: translateY(-1px);
+}
+
+.botao-musica:focus-visible {
+    outline: 2px solid #5279b8;
+    outline-offset: 4px;
+}
+
+#iconeMusica {
+    font-size: 16px;
+}

@@ -1,0 +1,84 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ titulo_pagina }} | CONVIDA</title>
+    <link rel="stylesheet" href="{% static 'css/convidados/convidados.css' %}">
+</head>
+<body>
+    <main class="page form-page">
+        <header class="topbar">
+            <a class="brand" href="{% url 'dashboard' %}">
+                CONVIDA<span>.</span>
+            </a>
+            <a class="back-link"
+               href="{% url 'convidados:lista_convidados' convite.slug %}">
+                Voltar à lista
+            </a>
+        </header>
+
+        <section class="form-container">
+            <span class="eyebrow">CONVIDADOS · {{ convite.titulo|upper }}</span>
+            <h1>{{ titulo_pagina }}</h1>
+            <p class="subtitle">
+                Preenche os dados abaixo para manter a lista do teu evento organizada.
+            </p>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" class="guest-form">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="form-errors">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">
+                            {{ field.label }}
+                            {% if field.field.required %}
+                                <span class="required">*</span>
+                            {% endif %}
+                        </label>
+
+                        {{ field }}
+
+                        {% if field.help_text %}
+                            <small>{{ field.help_text }}</small>
+                        {% endif %}
+
+                        {% for error in field.errors %}
+                            <small class="field-error">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+
+                <div class="form-actions">
+                    <a class="button button-secondary"
+                       href="{% url 'convidados:lista_convidados' convite.slug %}">
+                        Cancelar
+                    </a>
+                    <button class="button button-primary" type="submit">
+                        Guardar convidado
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <footer class="footer">
+            <span>CONVIDA</span>
+            <span>Momentos especiais, organizados com elegância.</span>
+        </footer>
+    </main>
+</body>
+</html>

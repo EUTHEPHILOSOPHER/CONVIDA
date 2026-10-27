@@ -68,6 +68,18 @@ class Convite(models.Model):
         blank=True
     )
 
+    musica = models.FileField(
+        upload_to='musicas_convites/',
+        blank=True,
+        null=True,
+        verbose_name='Música do convite',
+    )
+
+    reproduzir_musica = models.BooleanField(
+        default=True,
+        verbose_name='Disponibilizar música no convite',
+    )
+
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
@@ -100,3 +112,109 @@ class Convite(models.Model):
     def __str__(self):
         return self.titulo
 
+
+class Presente(models.Model):
+    convite = models.ForeignKey(
+        Convite,
+        on_delete=models.CASCADE,
+        related_name='presentes',
+    )
+
+    nome = models.CharField(
+        max_length=200,
+        verbose_name='Nome do presente',
+    )
+
+    descricao = models.TextField(
+        blank=True,
+        verbose_name='Descrição',
+    )
+
+    imagem = models.ImageField(
+        upload_to='presentes/',
+        blank=True,
+        null=True,
+        verbose_name='Fotografia do presente',
+    )
+
+    quantidade = models.PositiveIntegerField(
+        default=1,
+        verbose_name='Quantidade desejada',
+    )
+
+    link_compra = models.URLField(
+        blank=True,
+        verbose_name='Link de compra',
+    )
+
+    ativo = models.BooleanField(
+        default=True,
+        verbose_name='Disponível na lista',
+    )
+
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['nome']
+        constraints = [
+            models.CheckConstraint(
+                condition=models.Q(quantidade__gte=1),
+                name='presente_quantidade_minima_1',
+            ),
+        ]
+
+    def __str__(self):
+        return f'{self.nome} — {self.convite.titulo}'
+
+
+class LocalEvento(models.Model):
+    convite = models.ForeignKey(
+        Convite,
+        on_delete=models.CASCADE,
+        related_name='locais',
+        verbose_name='Convite',
+    )
+
+    nome = models.CharField(
+        max_length=200,
+        verbose_name='Nome do local',
+    )
+
+    atividade = models.CharField(
+        max_length=200,
+        verbose_name='Atividade',
+    )
+
+    data = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name='Data',
+    )
+
+    hora = models.TimeField(
+        null=True,
+        blank=True,
+        verbose_name='Hora',
+    )
+
+    localizacao = models.CharField(
+        max_length=255,
+        verbose_name='Endereço ou localização',
+    )
+
+    ordem = models.PositiveIntegerField(
+        default=0,
+        verbose_name='Ordem de apresentação',
+    )
+
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['ordem', 'hora', 'id']
+        verbose_name = 'Local do evento'
+        verbose_name_plural = 'Locais do evento'
+
+    def __str__(self):
+        return f'{self.nome} — {self.convite.titulo}'

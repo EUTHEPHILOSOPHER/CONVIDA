@@ -1,0 +1,387 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ titulo_pagina }} | CONVIDA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/convites/criar_convite_wizard.css' %}">
+</head>
+<body>
+
+<header class="topbar">
+    <a href="{% url 'meus_convites' %}" class="brand">
+        <span class="brand-icon">C</span>
+        <span>CONVIDA</span>
+    </a>
+
+    <a href="{% url 'meus_convites' %}" class="back-link">
+        <span aria-hidden="true">←</span>
+        Voltar aos meus convites
+    </a>
+</header>
+
+<main class="page-container">
+
+    <section class="intro">
+        <span class="eyebrow">O TEU EVENTO, À TUA MANEIRA</span>
+        <h1>Vamos criar o teu convite<span>.</span></h1>
+        <p>Preenche cada etapa e prepara um convite especial para partilhares com quem mais importa.</p>
+    </section>
+
+    <section class="wizard-card">
+
+        <div class="wizard-heading">
+            <div>
+                <span class="step-caption">
+                    ETAPA {{ wizard.steps.step1 }} DE {{ wizard.steps.count }}
+                </span>
+
+                <h2>
+                    {% if wizard.steps.current == 'evento' %}
+                        Dados do evento
+                    {% elif wizard.steps.current == 'quantidade_locais' %}
+                        Locais e programação
+                    {% elif wizard.steps.current == 'locais' %}
+                        Dados dos locais
+                    {% elif wizard.steps.current == 'design' %}
+                        Escolhe o teu design
+                    {% elif wizard.steps.current == 'musica' %}
+                        Música e finalização
+                    {% endif %}
+                </h2>
+            </div>
+
+            <span class="step-number">
+                {{ wizard.steps.step1|stringformat:"02d" }}
+                <span>/ {{ wizard.steps.count|stringformat:"02d" }}</span>
+            </span>
+        </div>
+
+        <div class="progress-track">
+            <div class="progress-value"
+                 style="width: {% widthratio wizard.steps.step1 wizard.steps.count 100 %}%;">
+            </div>
+        </div>
+
+        <nav class="steps-navigation" aria-label="Etapas da criação">
+
+            <div class="step-item {% if wizard.steps.current == 'evento' %}active{% elif wizard.steps.step1 > 1 %}completed{% endif %}">
+                <span class="step-dot">1</span>
+                <span>Evento</span>
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="step-item {% if wizard.steps.current == 'quantidade_locais' %}active{% elif wizard.steps.step1 > 2 %}completed{% endif %}">
+                <span class="step-dot">2</span>
+                <span>Locais</span>
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="step-item {% if wizard.steps.current == 'locais' %}active{% elif wizard.steps.step1 > 3 %}completed{% endif %}">
+                <span class="step-dot">3</span>
+                <span>Programação</span>
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="step-item {% if wizard.steps.current == 'design' %}active{% elif wizard.steps.step1 > 4 %}completed{% endif %}">
+                <span class="step-dot">4</span>
+                <span>Design</span>
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="step-item {% if wizard.steps.current == 'musica' %}active{% endif %}">
+                <span class="step-dot">5</span>
+                <span>Música</span>
+            </div>
+
+        </nav>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            {{ wizard.management_form }}
+
+            {% if wizard.form.non_field_errors %}
+                <div class="form-errors">
+                    {% for error in wizard.form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if wizard.steps.current == 'evento' %}
+
+                <div class="section-description">
+                    <h3>Conta-nos sobre o evento</h3>
+                    <p>Estas informações serão apresentadas no teu convite.</p>
+                </div>
+
+                <div class="form-grid">
+                    {% for field in wizard.form %}
+                        <div class="form-field {% if field.name == 'descricao' or field.name == 'titulo' %}full-width{% endif %}">
+                            <label for="{{ field.id_for_label }}">
+                                {{ field.label }}
+                                {% if field.field.required %}
+                                    <span class="required">*</span>
+                                {% endif %}
+                            </label>
+
+                            {{ field }}
+
+                            {% if field.help_text %}
+                                <small class="help-text">{{ field.help_text }}</small>
+                            {% endif %}
+
+                            {% for error in field.errors %}
+                                <small class="field-error">{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+            {% elif wizard.steps.current == 'quantidade_locais' %}
+
+                <div class="section-description">
+                    <h3>O teu evento terá vários locais?</h3>
+                    <p>
+                        Por exemplo, um casamento pode ter cerimónia, almoço
+                        e recepção em locais diferentes. Podes escolher zero
+                        se preferires adicionar os locais mais tarde.
+                    </p>
+                </div>
+
+                <div class="form-grid">
+                    {% for field in wizard.form %}
+                        <div class="form-field full-width">
+                            <label for="{{ field.id_for_label }}">
+                                {{ field.label }}
+                            </label>
+
+                            {{ field }}
+
+                            {% if field.help_text %}
+                                <small class="help-text">{{ field.help_text }}</small>
+                            {% endif %}
+
+                            {% for error in field.errors %}
+                                <small class="field-error">{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="optional-note">
+                    <span aria-hidden="true">i</span>
+                    <p>
+                        O endereço principal informado na etapa anterior
+                        continua a fazer parte dos dados gerais do convite.
+                    </p>
+                </div>
+
+            {% elif wizard.steps.current == 'locais' %}
+
+                <div class="section-description">
+                    <h3>Define a programação</h3>
+                    <p>
+                        Preenche os dados de cada local. A data e a hora
+                        são opcionais; o nome, a actividade e a localização
+                        são obrigatórios.
+                    </p>
+                </div>
+
+                {% if numero_locais %}
+                    <div class="form-grid">
+                        {% for field in wizard.form %}
+                            <div class="form-field {% if 'nome' in field.name or 'atividade' in field.name or 'localizacao' in field.name %}full-width{% endif %}">
+                                <label for="{{ field.id_for_label }}">
+                                    {{ field.label }}
+                                    {% if field.field.required %}
+                                        <span class="required">*</span>
+                                    {% endif %}
+                                </label>
+
+                                {{ field }}
+
+                                {% if field.help_text %}
+                                    <small class="help-text">{{ field.help_text }}</small>
+                                {% endif %}
+
+                                {% for error in field.errors %}
+                                    <small class="field-error">{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-locations">
+                        <strong>Não serão adicionados locais nesta etapa.</strong>
+                        <p>Continua para escolher o design ou volta atrás para definir locais.</p>
+                    </div>
+                {% endif %}
+
+            {% elif wizard.steps.current == 'design' %}
+
+                <div class="section-description">
+                    <h3>Qual estilo combina com o teu evento?</h3>
+                    <p>Escolhe um dos designs disponíveis. Poderás alterá-lo mais tarde.</p>
+                </div>
+
+                {% for field in wizard.form %}
+                    <div class="design-options">
+                        {% for choice in field %}
+                            <label class="design-option">
+                                {{ choice.tag }}
+
+                                <span class="design-preview design-{{ choice.data.value }}">
+                                    <span class="preview-decoration"></span>
+                                    <span class="preview-small">CONVIDA</span>
+
+                                    <span class="preview-title">
+                                        {% if choice.data.value == 'minimal-blue' %}
+                                            Minimal Blue
+                                        {% elif choice.data.value == 'floral' %}
+                                            Floral
+                                        {% elif choice.data.value == 'luxury-gold' %}
+                                            Luxury Gold
+                                        {% elif choice.data.value == 'tropical' %}
+                                            Tropical
+                                        {% elif choice.data.value == 'african-heritage' %}
+                                            African Heritage
+                                        {% endif %}
+                                    </span>
+
+                                    <span class="preview-line"></span>
+                                    <span class="preview-description">Um momento especial</span>
+                                </span>
+
+                                <span class="design-info">
+                                    <strong>{{ choice.choice_label }}</strong>
+
+                                    <span>
+                                        {% if choice.data.value == 'minimal-blue' %}
+                                            Elegante, limpo e moderno.
+                                        {% elif choice.data.value == 'floral' %}
+                                            Delicado e romântico.
+                                        {% elif choice.data.value == 'luxury-gold' %}
+                                            Clássico e sofisticado.
+                                        {% elif choice.data.value == 'tropical' %}
+                                            Leve e vibrante.
+                                        {% elif choice.data.value == 'african-heritage' %}
+                                            Inspirado na identidade africana.
+                                        {% endif %}
+                                    </span>
+                                </span>
+                            </label>
+                        {% endfor %}
+                    </div>
+
+                    {% for error in field.errors %}
+                        <small class="field-error">{{ error }}</small>
+                    {% endfor %}
+                {% endfor %}
+
+            {% elif wizard.steps.current == 'musica' %}
+
+                <div class="section-description">
+                    <h3>Adiciona uma banda sonora</h3>
+                    <p>A música é opcional. Podes continuar sem carregar nenhum ficheiro.</p>
+                </div>
+
+                <div class="music-information">
+                    <div class="music-icon">♫</div>
+                    <div>
+                        <strong>Uma música para tornar o momento único</strong>
+                        <p>Escolhe um ficheiro de áudio para acompanhar o teu convite.</p>
+                    </div>
+                </div>
+
+                <div class="form-grid music-grid">
+                    {% for field in wizard.form %}
+                        <div class="form-field full-width {% if field.name == 'reproduzir_musica' %}checkbox-field{% endif %}">
+                            {% if field.name == 'reproduzir_musica' %}
+                                <label class="checkbox-label" for="{{ field.id_for_label }}">
+                                    {{ field }}
+                                    <span>
+                                        <strong>{{ field.label }}</strong>
+                                        <small>Permitir a reprodução da música no convite.</small>
+                                    </span>
+                                </label>
+                            {% else %}
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
+
+                                {% if field.help_text %}
+                                    <small class="help-text">{{ field.help_text }}</small>
+                                {% endif %}
+                            {% endif %}
+
+                            {% for error in field.errors %}
+                                <small class="field-error">{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="optional-note">
+                    <span aria-hidden="true">i</span>
+                    <p>
+                        Não precisas de adicionar música agora. Poderás fazê-lo
+                        mais tarde na edição do convite.
+                    </p>
+                </div>
+
+            {% endif %}
+
+            <div class="form-footer">
+                {% if wizard.steps.prev %}
+                    <button
+                        type="submit"
+                        name="wizard_goto_step"
+                        value="{{ wizard.steps.prev }}"
+                        class="button button-secondary"
+                        formnovalidate>
+                        Voltar
+                    </button>
+                {% else %}
+                    <a href="{% url 'meus_convites' %}" class="button button-secondary">
+                        Cancelar
+                    </a>
+                {% endif %}
+
+                <button type="submit" class="button button-primary">
+                    {% if wizard.steps.current == 'musica' %}
+                        Criar convite <span aria-hidden="true">→</span>
+                    {% else %}
+                        Continuar <span aria-hidden="true">→</span>
+                    {% endif %}
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <footer class="page-footer">
+        <span>CONVIDA</span>
+        <span>Momentos especiais merecem convites especiais.</span>
+    </footer>
+</main>
+</body>
+</html>

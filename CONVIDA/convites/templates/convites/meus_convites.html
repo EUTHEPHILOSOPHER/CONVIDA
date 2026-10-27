@@ -32,6 +32,10 @@
         rel="stylesheet"
         href="{% static 'css/convites/meus_convites.css' %}"
     >
+    <link
+        rel="stylesheet"
+        href="{% static 'css/usuarios/login.css' %}"
+    >
 </head>
 
 <body>
@@ -43,8 +47,16 @@
     <aside class="sidebar">
 
         <div class="brand">
-            <span class="brand-mark">C</span>
-            <span class="brand-name">CONVIDA</span>
+            <a
+                href="/"
+                class="logo"
+                aria-label="CONVIDA"
+            >
+
+                <img src="{% static 'imagem/usuarios/CONVIDA SEM FUNDO-04.png' %}" alt="CONVIDA" class="logo-sign"> 
+                <img src="{% static 'imagem/usuarios/CONVIDA SEM FUNDO-06.png' %}" alt="CONVIDA" class="logo-image"> 
+
+            </a>
         </div>
 
         <nav class="sidebar-nav">
@@ -65,7 +77,8 @@
                 <span>Meus convites</span>
             </a>
 
-            <a href="#" class="nav-item">
+            <a href="{% url 'convidados:escolher_convite_convidados' %}"
+            class="nav-item">
                 <span class="nav-icon">♙</span>
                 <span>Convidados</span>
             </a>
@@ -111,12 +124,7 @@
                 ☰
             </button>
 
-            <div class="topbar-title">
-                Meus convites
-            </div>
-
             <div class="topbar-user">
-
                 <div class="user-avatar">
                     {% if request.user.foto %}
                         <img
@@ -124,10 +132,17 @@
                             alt="Foto de perfil"
                         >
                     {% else %}
-                        {{ request.user.first_name|first|upper }}
+                        <span>
+                            {{ request.user.first_name|default:request.user.username|first|upper }}
+                        </span>
                     {% endif %}
                 </div>
-
+                <div class="user-info">
+                    <span class="user-name">
+                        {{ request.user.get_full_name|default:request.user.username }}
+                    </span>
+                    <span class="user-account-label">Minha conta</span>
+                </div>
             </div>
 
         </header>
@@ -138,9 +153,6 @@
             <div class="page-heading">
 
                 <div>
-                    <span class="eyebrow">
-                        CONVIDA
-                    </span>
 
                     <h1>
                         Meus convites
@@ -229,18 +241,47 @@
 
                                     <a
                                         href="{% url 'editar_convite' convite.slug %}"
-                                        class="secondary-button"
+                                        class="action-button action-edit"
                                     >
                                         Editar
                                     </a>
 
                                     <a
-                                        href="#"
-                                        class="icon-button"
-                                        title="Visualizar convite"
+                                        href="{% url 'visualizar_convite' convite.slug %}"
+                                        class="action-button action-preview"
                                     >
-                                        ↗
+                                        Pré-visualizar
                                     </a>
+
+                                    {% if convite.status == 'publicado' %}
+                                        <a
+                                            href="{% url 'convite_publico' convite.slug %}"
+                                            class="action-button action-public"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Ver público
+                                        </a>
+                                    {% endif %}
+
+                                    <form
+                                        method="post"
+                                        action="{% url 'eliminar_convite' convite.slug %}"
+                                        class="delete-form"
+                                        onsubmit="return confirm(
+                                            'Tens a certeza de que pretendes eliminar este convite? Esta acção é permanente.'
+                                        );"
+                                    >
+                                        {% csrf_token %}
+
+                                        <button
+                                            type="submit"
+                                            class="action-button action-delete"
+                                        >
+                                            <span aria-hidden="true">×</span>
+                                            Eliminar
+                                        </button>
+                                    </form>
 
                                 </div>
 

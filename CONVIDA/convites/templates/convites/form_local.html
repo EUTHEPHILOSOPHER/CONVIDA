@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ titulo_pagina }} — CONVIDA</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 32px 16px;
+            background: #f7f8fa;
+            color: #20242c;
+            font-family: Inter, Arial, sans-serif;
+        }
+
+        .container { max-width: 650px; margin: auto; }
+
+        .panel {
+            background: white;
+            border: 1px solid #e7e9ee;
+            border-radius: 18px;
+            padding: 28px;
+        }
+
+        h1 { margin: 0 0 8px; font-size: 27px; }
+        .muted { color: #737b89; line-height: 1.6; }
+
+        .field { margin-top: 20px; }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dfe3e9;
+            border-radius: 10px;
+            background: white;
+            font: inherit;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: 2px solid #b9d7ff;
+            border-color: #7eaff5;
+        }
+
+        .errorlist { color: #b42318; font-size: 13px; }
+
+        .button {
+            display: inline-block;
+            padding: 12px 17px;
+            border: 0;
+            border-radius: 10px;
+            background: #20242c;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .button-light {
+            background: white;
+            color: #20242c;
+            border: 1px solid #dfe3e9;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 26px;
+        }
+
+        .message {
+            padding: 12px;
+            border: 1px solid #e7e9ee;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+<main class="container">
+    <p class="muted">CONVIDA / {{ convite.titulo }}</p>
+
+    <section class="panel">
+        <h1>{{ titulo_pagina }}</h1>
+        <p class="muted">
+            Define os dados desta etapa do evento. A data e a hora são opcionais.
+        </p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="field">
+                    <label for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                        {% if field.field.required %}*{% endif %}
+                    </label>
+
+                    {{ field }}
+
+                    {% if field.help_text %}
+                        <p class="muted">{{ field.help_text }}</p>
+                    {% endif %}
+
+                    {% for error in field.errors %}
+                        <p class="errorlist">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <p class="errorlist">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+
+            <div class="actions">
+                <button class="button" type="submit">Guardar local</button>
+
+                <a class="button button-light"
+                   href="{% url 'gerir_locais' convite.slug %}">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </section>
+</main>
+</body>
+</html>

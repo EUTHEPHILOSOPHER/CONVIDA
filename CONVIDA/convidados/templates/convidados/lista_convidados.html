@@ -1,0 +1,195 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convidados | CONVIDA</title>
+    <link rel="stylesheet" href="{% static 'css/convidados/convidados.css' %}">
+</head>
+<body>
+    <main class="page">
+        <header class="topbar">
+            <a class="brand" href="{% url 'dashboard' %}">
+                CONVIDA<span>.</span>
+            </a>
+            <a class="back-link" href="{% url 'editar_convite' convite.slug %}">
+                Voltar ao convite
+            </a>
+        </header>
+
+        <section class="page-heading">
+            <div>
+                <span class="eyebrow">GESTÃO DO EVENTO</span>
+                <h1>Os teus convidados</h1>
+                <p class="subtitle">
+                    Gere a lista de presenças de
+                    <strong>{{ convite.titulo }}</strong>.
+                </p>
+            </div>
+
+            <a class="button button-primary"
+               href="{% url 'convidados:criar_convidado' convite.slug %}">
+                <span>+</span> Adicionar convidado
+            </a>
+        </section>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <section class="stats">
+            <article class="stat-card">
+                <span class="stat-label">Total de convidados</span>
+                <strong>{{ total_convidados }}</strong>
+                <span class="stat-note">Pessoas registadas</span>
+            </article>
+
+            <article class="stat-card">
+                <span class="stat-label">Confirmados</span>
+                <strong>{{ total_confirmados }}</strong>
+                <span class="stat-note">Presenças confirmadas</span>
+            </article>
+
+            <article class="stat-card">
+                <span class="stat-label">Pendentes</span>
+                <strong>{{ total_pendentes }}</strong>
+                <span class="stat-note">Aguardam resposta</span>
+            </article>
+
+            <article class="stat-card">
+                <span class="stat-label">Recusados</span>
+                <strong>{{ total_recusados }}</strong>
+                <span class="stat-note">Não vão participar</span>
+            </article>
+        </section>
+
+        <section class="content-card">
+            <div class="content-heading">
+                <div>
+                    <h2>Lista de convidados</h2>
+                    <p>Consulta e atualiza os dados dos participantes.</p>
+                </div>
+                <span class="count-pill">{{ total_convidados }} registados</span>
+            </div>
+
+            {% if convidados %}
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Convidado</th>
+                                <th>Contacto</th>
+                                <th>Estado</th>
+                                <th>Acompanhantes</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for convidado in convidados %}
+                                <tr>
+                                    <td>
+                                        <div class="guest-name">
+                                            <span class="avatar">
+                                                {{ convidado.nome|first|upper }}
+                                            </span>
+                                            <span>{{ convidado.nome }}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="contact">
+                                            {% if convidado.email %}
+                                                <span>{{ convidado.email }}</span>
+                                            {% endif %}
+                                            {% if convidado.telefone %}
+                                                <span>{{ convidado.telefone }}</span>
+                                            {% endif %}
+                                            {% if not convidado.email and not convidado.telefone %}
+                                                <span class="muted">Sem contacto</span>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="status status-{{ convidado.status }}">
+                                            {{ convidado.get_status_display }}
+                                        </span>
+                                    </td>
+                                    <td>{{ convidado.numero_acompanhantes }}</td>
+                                    <td>
+                                        <div class="actions">
+                                            <a class="action-link"
+                                               href="{% url 'convidados:editar_convidado' convite.slug convidado.pk %}">
+                                                Editar
+                                            </a>
+
+                                            <form method="post"
+                                                  action="{% url 'convidados:remover_convidado' convite.slug convidado.pk %}"
+                                                  onsubmit="return confirm('Tens a certeza de que pretendes remover este convidado?');">
+                                                {% csrf_token %}
+                                                <button class="delete-button" type="submit">
+                                                    Remover
+                                                </button>
+                                            </form>
+
+                                                                                        
+                                            {% if convidado.status == 'pendente' %}
+                                                <div class="approval-actions">
+                                                    <form
+                                                        method="post"
+                                                        action="{% url 'convidados:aceitar_presenca' convite.slug convidado.pk %}"
+                                                        onsubmit="return confirm('Aceitar a presença de {{ convidado.nome|escapejs }}?');"
+                                                    >
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="approval-button accept-button">
+                                                            Aceitar
+                                                        </button>
+                                                    </form>
+
+                                                    <form
+                                                        method="post"
+                                                        action="{% url 'convidados:rejeitar_presenca' convite.slug convidado.pk %}"
+                                                        onsubmit="return confirm('Rejeitar o pedido de {{ convidado.nome|escapejs }}?');"
+                                                    >
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="approval-button reject-button">
+                                                            Rejeitar
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            {% endif %}
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">✦</div>
+                    <h3>A tua lista começa aqui</h3>
+                    <p>
+                        Ainda não adicionaste convidados a este evento.
+                        Começa por registar a primeira pessoa.
+                    </p>
+                    <a class="button button-primary"
+                       href="{% url 'convidados:criar_convidado' convite.slug %}">
+                        Adicionar primeiro convidado
+                    </a>
+                </div>
+            {% endif %}
+        </section>
+
+        <footer class="footer">
+            <span>CONVIDA</span>
+            <span>Momentos especiais, organizados com elegância.</span>
+        </footer>
+    </main>
+</body>
+</html>

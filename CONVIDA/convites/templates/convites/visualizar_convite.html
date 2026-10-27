@@ -5,60 +5,409 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{{ convite.titulo }} — CONVIDA</title>
+
     <link rel="stylesheet" href="{% static 'css/convites/visualizar_convite.css' %}">
+    <link rel="stylesheet" href="{% static 'css/convites/programa_evento.css' %}">
+    <link rel="stylesheet" href="{% static 'css/convites/musica_convite.css' %}">
 </head>
+
 <body>
 
 <main class="page">
+
+    {% if convite.musica and convite.reproduzir_musica %}
+    <section class="musica-convite">
+        <audio id="musicaConvite" preload="metadata">
+            <source src="{{ convite.musica.url }}">
+            O teu navegador não suporta a reprodução de áudio.
+        </audio>
+
+        <button
+            type="button"
+            id="botaoMusica"
+            class="botao-musica"
+            aria-label="Reproduzir música"
+            aria-pressed="false"
+        >
+            <span id="iconeMusica" aria-hidden="true">▶</span>
+            <span id="textoMusica">Ouvir a música do convite</span>
+        </button>
+    </section>
+    {% endif %}
+
+    <!-- CONVITE PRINCIPAL -->
     <div class="invitation {{ convite.template }}">
 
         <span class="event-type">
             {{ convite.get_tipo_evento_display }}
         </span>
 
-        <div class="ornament">✦</div>
+        <div class="ornament" aria-hidden="true">✦</div>
 
         <h1>{{ convite.titulo }}</h1>
 
         <div class="divider"></div>
 
         <div class="event-details">
+
             {% if convite.data_evento %}
-                <p class="detail">
-                    <span>DATA</span>
-                    {{ convite.data_evento|date:"d/m/Y" }}
-                </p>
+            <p class="detail">
+                <span>DATA</span>
+                {{ convite.data_evento|date:"d/m/Y" }}
+            </p>
             {% endif %}
 
             {% if convite.hora_evento %}
-                <p class="detail">
-                    <span>HORA</span>
-                    {{ convite.hora_evento|time:"H:i" }}
-                </p>
+            <p class="detail">
+                <span>HORA</span>
+                {{ convite.hora_evento|time:"H:i" }}
+            </p>
             {% endif %}
 
             {% if convite.local_evento %}
-                <p class="detail">
-                    <span>LOCAL</span>
-                    {{ convite.local_evento }}
-                </p>
+            <p class="detail">
+                <span>LOCAL</span>
+                {{ convite.local_evento }}
+            </p>
             {% endif %}
+
         </div>
 
         {% if convite.descricao %}
-            <p class="message">{{ convite.descricao }}</p>
+        <p class="message">{{ convite.descricao|linebreaksbr }}</p>
         {% endif %}
 
         <footer>Feito com CONVIDA</footer>
+
     </div>
 
+    <!-- PROGRAMA E LOCAIS DO EVENTO -->
+    {% if locais %}
+    <section class="programa-section">
+        <div class="programa-content">
+
+            <span class="eyebrow">AGENDA DA CELEBRAÇÃO</span>
+
+            <h2>Programa do evento</h2>
+
+            <p class="programa-intro">
+                Cada momento é especial. Consulta os horários e os locais
+                para acompanhares a celebração.
+            </p>
+
+            <div class="programa-lista">
+
+                {% for local in locais %}
+                <article class="programa-item">
+
+                    <div class="programa-horario">
+
+                        {% if local.hora %}
+                            <span>{{ local.hora|time:"H:i" }}</span>
+                        {% else %}
+                            <span>A definir</span>
+                        {% endif %}
+
+                        {% if local.data %}
+                            <small>{{ local.data|date:"d/m/Y" }}</small>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="programa-detalhes">
+
+                        <span class="programa-numero">
+                            ETAPA {{ forloop.counter|stringformat:"02d" }}
+                        </span>
+
+                        <h3>{{ local.nome }}</h3>
+
+                        {% if local.atividade %}
+                        <p class="programa-atividade">
+                            {{ local.atividade }}
+                        </p>
+                        {% endif %}
+
+                        {% if local.localizacao %}
+                        <p class="programa-localizacao">
+                            <span aria-hidden="true">⌖</span>
+                            {{ local.localizacao }}
+                        </p>
+
+                        <a
+                            class="programa-mapa"
+                            href="https://www.google.com/maps/search/?api=1&amp;query={{ local.localizacao|urlencode }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Ver localização no mapa ↗
+                        </a>
+                        {% endif %}
+
+                    </div>
+
+                </article>
+                {% endfor %}
+
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- ACÇÕES DISPONÍVEIS NA PRÉ-VISUALIZAÇÃO PRIVADA -->
+    {% if modo_pre_visualizacao %}
     <div class="preview-actions">
         <a href="{% url 'editar_convite' convite.slug %}">
             Voltar à edição
         </a>
     </div>
+    {% endif %}
+
+   
+    <!-- LISTA DE PRESENTES: PRÉ-VISUALIZAÇÃO E CONVITE PÚBLICO -->
+    {% if presentes %}
+    <section class="gift-selection">
+        <span class="eyebrow">COM CARINHO</span>
+        <h2>Lista de presentes</h2>
+
+        <p>
+            {% if modo_pre_visualizacao %}
+                Pré-visualização dos presentes que os convidados poderão oferecer.
+            {% else %}
+                Se desejares oferecer um presente, selecciona os artigos
+                que gostarias de oferecer.
+            {% endif %}
+        </p>
+
+        <div class="gift-list">
+            {% for presente in presentes %}
+                {% if presente.ativo %}
+                <article class="gift-card">
+                    {% if presente.imagem %}
+                    <img
+                        class="gift-image"
+                        src="{{ presente.imagem.url }}"
+                        alt="{{ presente.nome }}"
+                    >
+                    {% endif %}
+
+                    <h3>{{ presente.nome }}</h3>
+
+                    {% if presente.descricao %}
+                    <p>{{ presente.descricao|linebreaksbr }}</p>
+                    {% endif %}
+
+                    <p>Quantidade total: {{ presente.quantidade }}</p>
+
+                    {% if presente.link_compra %}
+                    <a
+                        href="{{ presente.link_compra }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Ver opção de compra
+                    </a>
+                    {% endif %}
+
+                    {% if convite.status == 'publicado' and not modo_pre_visualizacao %}
+                    <label for="presente-{{ presente.pk }}">
+                        <input
+                            type="checkbox"
+                            id="presente-{{ presente.pk }}"
+                            name="presentes"
+                            value="{{ presente.pk }}"
+                            form="form-confirmacao-presenca"
+                        >
+                        Quero oferecer este presente
+                    </label>
+                    {% endif %}
+                </article>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- CONFIRMAÇÃO DE PRESENÇA: APENAS NO CONVITE PÚBLICO -->
+    {% if convite.status == 'publicado' and not modo_pre_visualizacao %}
+    <section class="rsvp-section">
+        <div class="rsvp-content">
+            <span class="eyebrow">UM MOMENTO ESPECIAL</span>
+
+            <h2>Vais celebrar connosco?</h2>
+
+            <p>
+                Envia o teu pedido de presença. A tua participação
+                será confirmada após aprovação dos anfitriões.
+            </p>
+
+            {% if messages %}
+                {% for message in messages %}
+                <div class="rsvp-message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form
+                id="form-confirmacao-presenca"
+                method="post"
+                action="{% url 'convidados:confirmar_presenca' convite.slug %}"
+                class="rsvp-form"
+            >
+                {% csrf_token %}
+
+                <div class="rsvp-field">
+                    <label for="rsvp_nome">Nome completo *</label>
+                    <input
+                        id="rsvp_nome"
+                        name="nome"
+                        type="text"
+                        minlength="3"
+                        maxlength="150"
+                        autocomplete="name"
+                        placeholder="Introduz o teu nome completo"
+                        required
+                    >
+                </div>
+
+                <div class="rsvp-field">
+                    <label for="rsvp_telefone">Número de telefone *</label>
+                    <input
+                        id="rsvp_telefone"
+                        name="telefone"
+                        type="tel"
+                        maxlength="30"
+                        autocomplete="tel"
+                        placeholder="Ex.: 84 123 4567"
+                        required
+                    >
+                </div>
+
+                <div class="rsvp-field">
+                    <label for="rsvp_email">E-mail (opcional)</label>
+                    <input
+                        id="rsvp_email"
+                        name="email"
+                        type="email"
+                        maxlength="254"
+                        autocomplete="email"
+                        placeholder="exemplo@email.com"
+                    >
+                </div>
+
+                <div class="rsvp-field">
+                    <label for="rsvp_grau_parentesco">
+                        Qual é a tua relação com os anfitriões? *
+                    </label>
+                    <select
+                        id="rsvp_grau_parentesco"
+                        name="grau_parentesco"
+                        class="form-control"
+                        required
+                    >
+                        <option value="">Seleciona uma opção</option>
+                        <option value="familia">Familiar</option>
+                        <option value="amigo">Amigo/a</option>
+                        <option value="colega">Colega de trabalho</option>
+                        <option value="conhecido">Conhecido/a</option>
+                        <option value="outro">Outro</option>
+                    </select>
+                </div>
+
+                <div class="rsvp-field">
+                    <label for="rsvp_numero_acompanhantes">
+                        Número de acompanhantes
+                    </label>
+                    <input
+                        id="rsvp_numero_acompanhantes"
+                        name="numero_acompanhantes"
+                        type="number"
+                        min="0"
+                        max="99"
+                        value="0"
+                        required
+                    >
+                    <small>
+                        Indica quantas pessoas irão contigo,
+                        sem contar contigo próprio.
+                    </small>
+                </div>
+
+                <div class="rsvp-field">
+                    <label for="rsvp_mensagem">
+                        Mensagem aos anfitriões (opcional)
+                    </label>
+                    <textarea
+                        id="rsvp_mensagem"
+                        name="mensagem"
+                        rows="4"
+                        maxlength="1000"
+                        placeholder="Deixa uma mensagem especial..."
+                    ></textarea>
+                </div>
+
+                <button type="submit" class="rsvp-submit">
+                    Solicitar confirmação
+                </button>
+
+                <p class="rsvp-privacy">
+                    O teu pedido ficará pendente até à decisão do anfitrião.
+                </p>
+            </form>
+        </div>
+    </section>
+    {% endif %}
+
+
 </main>
+
+<!-- CONTROLO DA MÚSICA -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const audio = document.getElementById('musicaConvite');
+    const botao = document.getElementById('botaoMusica');
+    const icone = document.getElementById('iconeMusica');
+    const texto = document.getElementById('textoMusica');
+
+    if (!audio || !botao) {
+        return;
+    }
+
+    botao.addEventListener('click', async function () {
+        if (audio.paused) {
+            try {
+                await audio.play();
+            } catch (erro) {
+                texto.textContent =
+                    'Não foi possível reproduzir a música';
+            }
+        } else {
+            audio.pause();
+        }
+    });
+
+    audio.addEventListener('play', function () {
+        icone.textContent = 'Ⅱ';
+        texto.textContent = 'Pausar música';
+
+        botao.setAttribute('aria-label', 'Pausar música');
+        botao.setAttribute('aria-pressed', 'true');
+    });
+
+    audio.addEventListener('pause', function () {
+        icone.textContent = '▶';
+        texto.textContent = 'Ouvir a música do convite';
+
+        botao.setAttribute('aria-label', 'Reproduzir música');
+        botao.setAttribute('aria-pressed', 'false');
+    });
+
+    audio.addEventListener('ended', function () {
+        audio.currentTime = 0;
+    });
+});
+</script>
 
 </body>
 </html>

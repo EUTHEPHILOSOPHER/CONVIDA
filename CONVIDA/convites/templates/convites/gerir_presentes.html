@@ -1,0 +1,106 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de presentes | CONVIDA</title>
+    <link rel="stylesheet" href="{% static 'css/convites/editar_convite.css' %}">
+    <style>
+        .gifts-page { max-width: 1100px; margin: 40px auto; padding: 24px; }
+        .gifts-header { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:28px; }
+        .gifts-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; }
+        .gift-card { border:1px solid #e5e7eb; border-radius:16px; padding:18px; background:#fff; }
+        .gift-image { width:100%; height:180px; object-fit:cover; border-radius:10px; }
+        .gift-placeholder { height:180px; display:grid; place-items:center; background:#f7f8fa; border-radius:10px; color:#737985; }
+        .gift-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:18px; }
+        .gift-button { display:inline-block; padding:10px 15px; border-radius:9px; border:1px solid #d9dde4; text-decoration:none; color:#08090b; background:#fff; cursor:pointer; font:inherit; }
+        .gift-button-primary { background:#08090b; color:#fff; border-color:#08090b; }
+        .gift-button-danger { color:#b42318; }
+        .gift-messages { margin-bottom:20px; }
+        .gift-message { padding:12px 15px; border-radius:10px; background:#f7f8fa; margin-bottom:8px; }
+        .gift-empty { padding:48px 20px; text-align:center; border:1px dashed #cbd0d8; border-radius:16px; }
+        @media(max-width:600px) { .gifts-page { margin:15px auto; padding:16px; } .gifts-header { align-items:stretch; flex-direction:column; } }
+    </style>
+</head>
+<body>
+<main class="gifts-page">
+    <div class="gifts-header">
+        <div>
+            <p>CONVIDA / {{ convite.titulo }}</p>
+            <h1>Lista de presentes</h1>
+            <p>Organiza os presentes que gostarias de receber neste evento.</p>
+        </div>
+        <a class="gift-button gift-button-primary"
+           href="{% url 'adicionar_presente' convite.slug %}">
+            + Adicionar presente
+        </a>
+    </div>
+
+    {% if messages %}
+    <div class="gift-messages">
+        {% for message in messages %}
+        <div class="gift-message">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if presentes %}
+    <div class="gifts-grid">
+        {% for presente in presentes %}
+        <article class="gift-card">
+            {% if presente.imagem %}
+                <img class="gift-image" src="{{ presente.imagem.url }}" alt="{{ presente.nome }}">
+            {% else %}
+                <div class="gift-placeholder">Sem fotografia</div>
+            {% endif %}
+
+            <h2>{{ presente.nome }}</h2>
+
+            {% if presente.descricao %}
+                <p>{{ presente.descricao|linebreaksbr }}</p>
+            {% endif %}
+
+            <p>Quantidade desejada: {{ presente.quantidade }}</p>
+            <p>Estado: {% if presente.ativo %}Disponível{% else %}Oculto{% endif %}</p>
+
+            {% if presente.link_compra %}
+                <p><a href="{{ presente.link_compra }}" target="_blank" rel="noopener noreferrer">Ver link de compra</a></p>
+            {% endif %}
+
+            <div class="gift-actions">
+                <a class="gift-button"
+                   href="{% url 'editar_presente' convite.slug presente.pk %}">
+                    Editar
+                </a>
+
+                <form method="post"
+                      action="{% url 'remover_presente' convite.slug presente.pk %}"
+                      onsubmit="return confirm('Tens a certeza de que pretendes remover este presente?');">
+                    {% csrf_token %}
+                    <button class="gift-button gift-button-danger" type="submit">
+                        Remover
+                    </button>
+                </form>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <section class="gift-empty">
+        <h2>A lista ainda está vazia</h2>
+        <p>Adiciona o primeiro presente para os teus convidados o poderem consultar.</p>
+        <a class="gift-button gift-button-primary"
+           href="{% url 'adicionar_presente' convite.slug %}">
+            Adicionar primeiro presente
+        </a>
+    </section>
+    {% endif %}
+
+    <p style="margin-top:28px">
+        <a href="{% url 'editar_convite' convite.slug %}">← Voltar à edição do convite</a>
+    </p>
+</main>
+</body>
+</html>

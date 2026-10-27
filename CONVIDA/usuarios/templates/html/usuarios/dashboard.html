@@ -1,686 +1,327 @@
+
 {% load static %}
 
 <!DOCTYPE html>
-
 <html lang="pt">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="description"
-        content="Dashboard do CONVIDA"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dashboard do CONVIDA">
+    <meta name="theme-color" content="#2086D5">
 
     <title>Dashboard | CONVIDA</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- FONTES -->
-
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
-
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-        crossorigin
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-
-    <!-- CSS -->
-
-    <link
-        rel="stylesheet"
-        href="{% static 'css/usuarios/dashboard.css' %}"
-    >
-
+    <link rel="stylesheet" href="{% static 'css/usuarios/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/usuarios/login.css' %}">
 </head>
 
-
 <body>
+<div class="app">
 
+    <!-- MENU LATERAL -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-top">
+            <a
+            href="{% url 'dashboard' %}"
+            class="logo"
+            aria-label="CONVIDA"
+            >
 
-    <!-- =========================================
-         APP
-    ========================================== -->
+                <img src="{% static 'imagem/usuarios/CONVIDA SEM FUNDO-01.png' %}" alt="CONVIDA" class="logo-sign"> 
+                <img src="{% static 'imagem/usuarios/CONVIDA SEM FUNDO-03.png' %}" alt="CONVIDA" class="logo-image"> 
 
-    <div class="app">
+            </a>
 
+            <button
+                type="button"
+                class="close-sidebar"
+                id="close-sidebar"
+                aria-label="Fechar menu"
+            >×</button>
+        </div>
 
-        <!-- =====================================
-             SIDEBAR
-        ====================================== -->
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <span class="nav-label">PRINCIPAL</span>
 
-        <aside class="sidebar" id="sidebar">
-
-
-            <!-- LOGO -->
-
-            <div class="sidebar-top">
-
-                <a
-                    href="{% url 'dashboard' %}"
-                    class="logo"
-                >
-
-                    CONVIDA<span>.</span>
-
+                <a href="{% url 'dashboard' %}" class="nav-item active">
+                    <span class="nav-icon">⌂</span>
+                    <span>Dashboard</span>
                 </a>
 
-
-                <!-- FECHAR MENU MOBILE -->
-
-                <button
-                    type="button"
-                    class="close-sidebar"
-                    id="close-sidebar"
-                    aria-label="Fechar menu"
-                >
-
-                    ×
-
-                </button>
-
-            </div>
-
-
-            <!-- MENU -->
-
-            <nav class="sidebar-nav">
-
-
-                <div class="nav-section">
-
-                    <span class="nav-label">
-                        PRINCIPAL
-                    </span>
-
-
-                    <a
-                        href="{% url 'dashboard' %}"
-                        class="nav-item active"
-                    >
-
-                        <span class="nav-icon">
-                            ⌂
-                        </span>
-
-                        <span>
-                            Dashboard
-                        </span>
-
-                    </a>
-
-
-                    <a
-                        href="#"
-                        class="nav-item"
-                    >
-
-                        <span class="nav-icon">
-                            ◫
-                        </span>
-
-                        <span>
-                            Meus convites
-                        </span>
-
-                    </a>
-
-
-                    <a
-                        href="#"
-                        class="nav-item"
-                    >
-
-                        <span class="nav-icon">
-                            ✦
-                        </span>
-
-                        <span>
-                            Modelos
-                        </span>
-
-                    </a>
-
-
-                    <a
-                        href="#"
-                        class="nav-item"
-                    >
-
-                        <span class="nav-icon">
-                            ♧
-                        </span>
-
-                        <span>
-                            Convidados
-                        </span>
-
-                    </a>
-
-                </div>
-
-
-                <div class="nav-section">
-
-
-                    <span class="nav-label">
-                        CONTA
-                    </span>
-
-
-                    <a
-                        href="#"
-                        class="nav-item"
-                    >
-
-                        <span class="nav-icon">
-                            ◉
-                        </span>
-
-                        <span>
-                            Meu perfil
-                        </span>
-
-                    </a>
-
-
-                    <a
-                        href="#"
-                        class="nav-item"
-                    >
-
-                        <span class="nav-icon">
-                            ⚙
-                        </span>
-
-                        <span>
-                            Configurações
-                        </span>
-
-                    </a>
-
-                </div>
-
-            </nav>
-
-
-            <!-- SIDEBAR FOOTER -->
-
-            <div class="sidebar-footer">
-
-
-                <a
-                    href="{% url 'logout' %}"
-                    class="logout-button"
-                >
-
-                    <span class="nav-icon">
-                        ↪
-                    </span>
-
-                    <span>
-                        Sair
-                    </span>
-
+                <a href="{% url 'meus_convites' %}" class="nav-item">
+                    <span class="nav-icon">◫</span>
+                    <span>Meus convites</span>
                 </a>
 
+                <a href="{% url 'criar_convite_wizard' %}" class="nav-item">
+                    <span class="nav-icon">✦</span>
+                    <span>Modelos</span>
+                </a>
 
+                <!-- A página de convidados será ligada quando confirmarmos a rota. -->
+                <a href="{% url 'meus_convites' %}" class="nav-item">
+                    <span class="nav-icon">♧</span>
+                    <span>Convidados</span>
+                </a>
             </div>
 
-
-        </aside>
-
-
-        <!-- =====================================
-             OVERLAY MOBILE
-        ====================================== -->
-
-        <div
-            class="sidebar-overlay"
-            id="sidebar-overlay"
-        ></div>
-
-
-        <!-- =====================================
-             MAIN
-        ====================================== -->
-
-        <main class="main">
-
-
-            <!-- HEADER -->
-
-            <header class="topbar">
-
-
-                <button
-                    type="button"
-                    class="menu-button"
-                    id="menu-button"
-                    aria-label="Abrir menu"
-                >
-
-                    ☰
-
-                </button>
-
-
-                <div class="topbar-spacer"></div>
-
-
-                <!-- NOTIFICAÇÕES -->
-
-                <button
-                    type="button"
-                    class="notification-button"
-                    aria-label="Notificações"
-                >
-
-                    ♧
-
-                    <span class="notification-dot"></span>
-
-                </button>
-
-
-                <!-- USER -->
-
-                <div class="user-menu">
-
-
-                    <div class="user-avatar">
-
-                        {% if request.user.foto %}
-
-                            <img
-                                src="{{ request.user.foto.url }}"
-                                alt="Foto de {{ request.user.first_name }}"
-                            >
-
-                        {% else %}
-
-                            {{ request.user.first_name|first|upper }}
-
-                        {% endif %}
-
-                    </div>
-
-
-                    <div class="user-info">
-
-                        <strong>
-
-                            {{ request.user.first_name }}
-
-                            {{ request.user.last_name }}
-
-                        </strong>
-
-                        <span>
-                            Minha conta
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-            </header>
-
-
-            <!-- CONTENT -->
-
-            <div class="content">
-
-
-                <!-- WELCOME -->
-
-                <section class="welcome">
-
-
-                    <div>
-
-                        <span class="welcome-label">
-                            SEU ESPAÇO
-                        </span>
-
-
-                        <h1>
-
-                            Olá,
-                            {{ request.user.first_name }}
-                            <span>👋</span>
-
-                        </h1>
-
-
-                        <p>
-
-                            Crie e gerencie seus momentos
-                            especiais em um só lugar.
-
-                        </p>
-
-                    </div>
-
-
-                    <a
-                        href="#"
-                        class="primary-button"
-                    >
-
-                        <span>
-                            +
-                        </span>
-
-                        Criar convite
-
-                    </a>
-
-
-                </section>
-
-
-                <!-- STATS -->
-
-                <section class="stats">
-
-
-                    <article class="stat-card">
-
-                        <div class="stat-icon blue">
-                            ◫
-                        </div>
-
-                        <div>
-
-                            <span>
-                                Convites
-                            </span>
-
-                            <strong>
-                                0
-                            </strong>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="stat-card">
-
-                        <div class="stat-icon purple">
-                            ♧
-                        </div>
-
-                        <div>
-
-                            <span>
-                                Convidados
-                            </span>
-
-                            <strong>
-                                0
-                            </strong>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="stat-card">
-
-                        <div class="stat-icon green">
-                            ✓
-                        </div>
-
-                        <div>
-
-                            <span>
-                                Confirmações
-                            </span>
-
-                            <strong>
-                                0
-                            </strong>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="stat-card">
-
-                        <div class="stat-icon orange">
-                            ◷
-                        </div>
-
-                        <div>
-
-                            <span>
-                                Pendentes
-                            </span>
-
-                            <strong>
-                                0
-                            </strong>
-
-                        </div>
-
-                    </article>
-
-
-                </section>
-
-
-                <!-- CONVITES -->
-
-                <section class="section">
-
-
-                    <div class="section-header">
-
-                        <div>
-
-                            <h2>
-                                Seus convites
-                            </h2>
-
-                            <p>
-                                Gerencie seus convites digitais.
-                            </p>
-
-                        </div>
-
-
-                        <a
-                            href="#"
-                            class="view-all"
+            <div class="nav-section">
+                <span class="nav-label">CONTA</span>
+
+                <!-- Estas páginas ainda não têm rotas confirmadas. -->
+                <a href="#" class="nav-item" aria-disabled="true" title="Página ainda não disponível">
+                    <span class="nav-icon">◉</span>
+                    <span>Meu perfil</span>
+                </a>
+
+                <a href="#" class="nav-item" aria-disabled="true" title="Página ainda não disponível">
+                    <span class="nav-icon">⚙</span>
+                    <span>Configurações</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="{% url 'logout' %}" class="logout-button">
+                <span class="nav-icon">↪</span>
+                <span>Sair</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- FUNDO DO MENU MOBILE -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="main">
+
+        <header class="topbar">
+            <button
+                type="button"
+                class="menu-button"
+                id="menu-button"
+                aria-label="Abrir menu"
+                aria-controls="sidebar"
+                aria-expanded="false"
+            >☰</button>
+
+            <div class="topbar-spacer"></div>
+
+            <div class="user-menu">
+                <div class="user-avatar">
+                    {% if request.user.foto %}
+                        <img
+                            src="{{ request.user.foto.url }}"
+                            alt="Foto de {{ request.user.first_name }}"
                         >
-                            Ver todos
-                        </a>
+                    {% else %}
+                        {% firstof request.user.first_name request.user.username "U" as nome_utilizador %}
+                        {{ nome_utilizador|first|upper }}
+                    {% endif %}
+                </div>
 
+                <div class="user-info">
+                    <strong>
+                        {% firstof request.user.get_full_name request.user.username %}
+                    </strong>
+                    <span>Minha conta</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+
+            <!-- BOAS-VINDAS -->
+            <section class="welcome">
+                <div>
+                    <span class="welcome-label">SEU ESPAÇO</span>
+
+                    <h1>
+                        Olá,
+                        {% firstof request.user.first_name request.user.username %}
+                        <span>👋</span>
+                    </h1>
+
+                    <p>
+                        Crie e gerencie seus momentos especiais
+                        em um só lugar.
+                    </p>
+                </div>
+
+                <a href="{% url 'criar_convite_wizard' %}" class="primary-button">
+                    <span>+</span>
+                    Criar convite
+                </a>
+            </section>
+
+            <!-- ESTATÍSTICAS -->
+            <section class="stats">
+
+                <article class="stat-card">
+                    <div class="stat-icon blue">◫</div>
+                    <div>
+                        <span>Convites</span>
+                        <strong>{{ total_convites|default:0 }}</strong>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon purple">♧</div>
+                    <div>
+                        <span>Convidados</span>
+                        <strong>{{ total_convidados|default:0 }}</strong>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon green">✓</div>
+                    <div>
+                        <span>Confirmações</span>
+                        <strong>{{ total_confirmacoes|default:0 }}</strong>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon orange">◷</div>
+                    <div>
+                        <span>Pendentes</span>
+                        <strong>{{ total_pendentes|default:0 }}</strong>
+                    </div>
+                </article>
+
+            </section>
+
+            <!-- CONVITES RECENTES -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <h2>Seus convites</h2>
+                        <p>Gerencie os seus convites digitais.</p>
                     </div>
 
+                    <a href="{% url 'meus_convites' %}" class="view-all">
+                        Ver todos
+                    </a>
+                </div>
 
-                    <!-- EMPTY STATE -->
+                {% if convites_recentes %}
+                    <div class="recent-invites">
 
+                        {% for convite in convites_recentes %}
+                            <article class="recent-invite-card">
+
+                                <div class="recent-invite-info">
+                                    <h3>{{ convite.titulo }}</h3>
+
+                                    <p>{{ convite.get_tipo_evento_display }}</p>
+
+                                    {% if convite.data_evento %}
+                                        <p>
+                                            Data:
+                                            {{ convite.data_evento|date:"d/m/Y" }}
+                                        </p>
+                                    {% endif %}
+
+                                    <span class="invite-status status-{{ convite.status }}">
+                                        {{ convite.get_status_display }}
+                                    </span>
+                                </div>
+
+                                <div class="recent-invite-actions">
+                                    <a href="{% url 'editar_convite' slug=convite.slug %}">
+                                        Editar
+                                    </a>
+
+                                    <a href="{% url 'visualizar_convite' slug=convite.slug %}">
+                                        Visualizar
+                                    </a>
+                                </div>
+
+                            </article>
+                        {% endfor %}
+
+                    </div>
+                {% else %}
                     <div class="empty-state">
+                        <div class="empty-icon">✦</div>
 
-
-                        <div class="empty-icon">
-
-                            ✦
-
-                        </div>
-
-
-                        <h3>
-
-                            Ainda não criou nenhum convite
-
-                        </h3>
-
+                        <h3>Ainda não criou nenhum convite</h3>
 
                         <p>
-
-                            Escolha um dos nossos modelos
-                            e comece a criar seu primeiro
-                            convite digital.
-
+                            Escolha um dos nossos modelos e comece
+                            a criar o seu primeiro convite digital.
                         </p>
 
-
                         <a
-                            href="#"
+                            href="{% url 'criar_convite_wizard' %}"
                             class="secondary-button"
                         >
-
-                            Explorar modelos
-
+                            Criar o primeiro convite
                         </a>
+                    </div>
+                {% endif %}
+            </section>
 
-
+            <!-- MODELOS -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <h2>Comece por um modelo</h2>
+                        <p>Escolha um design para o seu convite.</p>
                     </div>
 
+                    <a href="{% url 'criar_convite_wizard' %}" class="view-all">
+                        Ver modelos
+                    </a>
+                </div>
 
-                </section>
+                <div class="template-preview-grid">
 
-
-                <!-- MODELOS -->
-
-                <section class="section">
-
-
-                    <div class="section-header">
-
-                        <div>
-
-                            <h2>
-                                Comece por um modelo
-                            </h2>
-
-                            <p>
-                                Escolha um design para o seu convite.
-                            </p>
-
+                    <a
+                        href="{% url 'criar_convite_wizard' %}"
+                        class="template-preview blue-template"
+                    >
+                        <div class="template-content">
+                            <small>CONVIDA</small>
+                            <h3>Minimal Blue</h3>
+                            <span>Elegante e minimalista</span>
                         </div>
+                    </a>
 
+                    <a
+                        href="{% url 'criar_convite_wizard' %}"
+                        class="template-preview dark-template"
+                    >
+                        <div class="template-content">
+                            <small>CONVIDA</small>
+                            <h3>Dark Elegance</h3>
+                            <span>Moderno e sofisticado</span>
+                        </div>
+                    </a>
 
-                        <a
-                            href="#"
-                            class="view-all"
-                        >
-                            Ver modelos
-                        </a>
+                    <a
+                        href="{% url 'criar_convite_wizard' %}"
+                        class="template-preview floral-template"
+                    >
+                        <div class="template-content">
+                            <small>CONVIDA</small>
+                            <h3>Floral</h3>
+                            <span>Delicado e romântico</span>
+                        </div>
+                    </a>
 
-                    </div>
+                </div>
+            </section>
 
+        </div>
+    </main>
+</div>
 
-                    <div class="template-preview-grid">
-
-
-                        <article class="template-preview blue-template">
-
-                            <div class="template-content">
-
-                                <small>
-                                    CONVIDA
-                                </small>
-
-                                <h3>
-                                    Minimal Blue
-                                </h3>
-
-                                <span>
-                                    Elegante e minimalista
-                                </span>
-
-                            </div>
-
-                        </article>
-
-
-                        <article class="template-preview dark-template">
-
-                            <div class="template-content">
-
-                                <small>
-                                    CONVIDA
-                                </small>
-
-                                <h3>
-                                    Dark Elegance
-                                </h3>
-
-                                <span>
-                                    Moderno e sofisticado
-                                </span>
-
-                            </div>
-
-                        </article>
-
-
-                        <article class="template-preview floral-template">
-
-                            <div class="template-content">
-
-                                <small>
-                                    CONVIDA
-                                </small>
-
-                                <h3>
-                                    Floral
-                                </h3>
-
-                                <span>
-                                    Delicado e romântico
-                                </span>
-
-                            </div>
-
-                        </article>
-
-
-                    </div>
-
-
-                </section>
-
-
-            </div>
-
-
-        </main>
-
-
-    </div>
-
-
-    <!-- JAVASCRIPT -->
-
-    <script
-        src="{% static 'js/usuarios/dashboard.js' %}"
-        defer
-    ></script>
-
-
+<script src="{% static 'js/usuarios/dashboard.js' %}" defer></script>
 </body>
-
 </html>
