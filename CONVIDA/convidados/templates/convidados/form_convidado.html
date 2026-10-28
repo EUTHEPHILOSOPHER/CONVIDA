@@ -11,8 +11,11 @@
 <body>
     <main class="page form-page">
         <header class="topbar">
-            <a class="brand" href="{% url 'dashboard' %}">
-                CONVIDA<span>.</span>
+            <a href="{% url 'dashboard' %}" class="logo" aria-label="CONVIDA">
+
+                <img src="{% static 'imagem/usuarios/CONVIDA SEM FUNDO-01.png' %}" alt="CONVIDA" class="logo-sign"> 
+                <img src="{% static 'imagem/usuarios/CONVIDA SEM FUNDO-03.png' %}" alt="CONVIDA" class="logo-image"> 
+
             </a>
             <a class="back-link"
                href="{% url 'convidados:lista_convidados' convite.slug %}">

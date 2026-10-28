@@ -46,7 +46,7 @@ urlpatterns = [
     name='reservar_presente',
     ),
     path(
-        'convites/',
+        'convidados/selecionar/',
         views.escolher_convite_convidados,
         name='escolher_convite_convidados',
     ),

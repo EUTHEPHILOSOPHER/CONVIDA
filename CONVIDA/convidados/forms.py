@@ -3,6 +3,8 @@ from django import forms
 from .models import Convidado, ReservaPresente
 
 
+
+
 class ConvidadoForm(forms.ModelForm):
     class Meta:
         model = Convidado
@@ -10,22 +12,38 @@ class ConvidadoForm(forms.ModelForm):
             'nome',
             'email',
             'telefone',
+            'grau_parentesco',
             'status',
             'numero_acompanhantes',
         ]
+
+        labels = {
+            'nome': 'Nome completo',
+            'email': 'E-mail',
+            'telefone': 'Número de telefone',
+            'grau_parentesco': 'Relação com os anfitriões',
+            'status': 'Estado da presença',
+            'numero_acompanhantes': 'Número de acompanhantes',
+        }
 
         widgets = {
             'nome': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Nome completo do convidado',
+                'autocomplete': 'name',
             }),
             'email': forms.EmailInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'exemplo@email.com',
+                'autocomplete': 'email',
             }),
             'telefone': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Número de telefone',
+                'autocomplete': 'tel',
+            }),
+            'grau_parentesco': forms.Select(attrs={
+                'class': 'form-control',
             }),
             'status': forms.Select(attrs={
                 'class': 'form-control',
@@ -46,6 +64,7 @@ class ConvidadoForm(forms.ModelForm):
             )
 
         return nome
+
 
 
 class ConfirmacaoPresencaForm(forms.ModelForm):

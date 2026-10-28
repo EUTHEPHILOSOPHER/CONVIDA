@@ -17,16 +17,26 @@
 
     <link rel="stylesheet"
           href="{% static 'css/convidados/escolher_convite.css' %}">
+
+    
 </head>
 
 <body>
 <main class="page">
 
     <aside class="sidebar">
-        <a href="{% url 'dashboard' %}" class="brand">
-            <span class="brand-mark">C</span>
-            <span>CONVIDA</span>
-        </a>
+        
+            <a
+                href="{% url 'dashboard' %}"
+                class="logo"
+                aria-label="CONVIDA"
+            >
+
+                <img src="{% static 'imagem/usuarios/CONVIDA SEM FUNDO-04.png' %}" alt="CONVIDA" class="logo-sign"> 
+                <img src="{% static 'imagem/usuarios/CONVIDA SEM FUNDO-06.png' %}" alt="CONVIDA" class="logo-image"> 
+
+            </a>
+        
 
         <nav class="sidebar-nav">
             <a href="{% url 'dashboard' %}" class="nav-item">

@@ -7,12 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Convidados | CONVIDA</title>
     <link rel="stylesheet" href="{% static 'css/convidados/convidados.css' %}">
+    
 </head>
 <body>
     <main class="page">
         <header class="topbar">
-            <a class="brand" href="{% url 'dashboard' %}">
-                CONVIDA<span>.</span>
+            <a href="{% url 'dashboard' %}" class="logo" aria-label="CONVIDA">
+
+                <img src="{% static 'imagem/usuarios/CONVIDA SEM FUNDO-01.png' %}" alt="CONVIDA" class="logo-sign"> 
+                <img src="{% static 'imagem/usuarios/CONVIDA SEM FUNDO-03.png' %}" alt="CONVIDA" class="logo-image"> 
+
             </a>
             <a class="back-link" href="{% url 'editar_convite' convite.slug %}">
                 Voltar ao convite
@@ -72,7 +76,7 @@
         <section class="content-card">
             <div class="content-heading">
                 <div>
-                    <h2>Lista de convidados</h2>
+                    <h2 class="h2-title">Lista de convidados</h2>
                     <p>Consulta e atualiza os dados dos participantes.</p>
                 </div>
                 <span class="count-pill">{{ total_convidados }} registados</span>

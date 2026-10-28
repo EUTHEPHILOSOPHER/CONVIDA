@@ -11,6 +11,7 @@
 
     <link rel="stylesheet"
           href="{% static 'css/convites/editar_convite.css' %}">
+          
 </head>
 
 <body>
@@ -20,7 +21,11 @@
         ← Meus convites
     </a>
 
-    <a href="{% url 'dashboard' %}" class="brand">CONVIDA</a>
+    <a href="{% url 'dashboard' %}" class="logo" aria-label="CONVIDA">
+
+        <img src="{% static 'imagem/usuarios/CONVIDA SEM FUNDO-03.png' %}" alt="CONVIDA" class="logo-image"> 
+
+    </a>
 
     <span class="draft-badge">
         {% if convite.status == 'publicado' %}

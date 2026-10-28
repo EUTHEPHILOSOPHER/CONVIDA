@@ -50,15 +50,18 @@ select {
     border-bottom: 1px solid var(--border);
 }
 
-.brand {
-    color: var(--obsidian);
-    font-size: 25px;
-    font-weight: 800;
-    letter-spacing: -1.4px;
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.brand span {
-    color: var(--blue);
+.logo-sign {
+    width: 40px;
+}
+
+.logo-image {
+    width: 120px;
 }
 
 .back-link {
@@ -207,7 +210,7 @@ h1 {
 
 .content-heading h2 {
     margin-bottom: 4px;
-    color: var(--obsidian);
+    
     font-size: 18px;
     letter-spacing: -0.4px;
 }
@@ -610,4 +613,767 @@ tbody tr:hover {
 
 .reject-button:hover {
     background: #ffe0e3;
+}
+
+
+/* =====================================================
+   CONVIDA — REFINAMENTO VISUAL DA LISTA DE CONVIDADOS
+   ===================================================== */
+
+/* Cabeçalho mais elegante */
+.topbar {
+    min-height: 82px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    background: var(--white);
+    transition: all 180ms ease;
+}
+
+.back-link::before {
+    content: "←";
+    font-size: 16px;
+}
+
+.back-link:hover {
+    color: var(--blue);
+    border-color: #c9e3f4;
+    background: #f0f8fd;
+}
+
+/* Título e botão de adicionar */
+.page-heading {
+    padding-top: 42px;
+    padding-bottom: 32px;
+}
+
+.page-heading h1 {
+    font-weight: 800;
+    letter-spacing: -1.7px;
+}
+
+.subtitle {
+    line-height: 1.8;
+}
+
+.subtitle strong {
+    color: var(--text);
+}
+
+.page-heading .button-primary {
+    background: var(--obsidian);
+    box-shadow: 0 5px 14px rgba(8, 9, 11, 0.10);
+}
+
+.page-heading .button-primary:hover {
+    background: var(--blue);
+    box-shadow: 0 7px 18px rgba(37, 151, 208, 0.20);
+}
+
+/* Cartões de estatísticas */
+.stat-card {
+    position: relative;
+    overflow: hidden;
+    padding: 23px;
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        border-color 180ms ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    border-color: #d4e6f4;
+    box-shadow: 0 12px 30px rgba(20, 29, 50, 0.065);
+}
+
+.stat-card strong {
+    margin-top: 13px;
+    margin-bottom: 5px;
+    font-size: 34px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+
+.stat-label {
+    line-height: 1.6;
+}
+
+.stat-note {
+    line-height: 1.7;
+}
+
+/* Cartão principal */
+.content-card {
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(20, 29, 50, 0.035);
+}
+
+.content-heading {
+    padding: 26px 28px;
+}
+
+.content-heading h2 {
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.count-pill {
+    padding: 7px 12px;
+    color: #267eae;
+    background: #edf7fc;
+    border: 1px solid #dceef9;
+}
+
+/* Tabela */
+.table-wrapper {
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd8e5 transparent;
+}
+
+table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: separate;
+    border-spacing: 0;
+    white-space: normal;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    background: #f8fafc;
+    border-bottom: 1px solid var(--border);
+}
+
+th,
+td {
+    padding: 17px 20px;
+}
+
+tbody tr {
+    transition: background 160ms ease;
+}
+
+tbody tr:hover {
+    background: #f6faff;
+}
+
+tbody td {
+    vertical-align: middle;
+}
+
+tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+/* Nome do convidado */
+.guest-name {
+    gap: 12px;
+    min-width: 155px;
+    color: var(--text);
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #d9eaf8;
+    border-radius: 13px;
+    background: linear-gradient(145deg, #edf8ff, #e2f1fc);
+    color: #237eae;
+    font-size: 14px;
+}
+
+/* Contactos */
+.contact {
+    min-width: 145px;
+    gap: 5px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.contact span {
+    max-width: 230px;
+}
+
+.muted {
+    color: #9aa3af;
+    font-style: italic;
+}
+
+/* Estados de presença */
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border: 1px solid transparent;
+    border-radius: 30px;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+.status::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    flex: 0 0 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.status-confirmado {
+    color: var(--green);
+    background: #e8f7ef;
+    border-color: #d1eddd;
+}
+
+.status-pendente {
+    color: var(--amber);
+    background: #fff5df;
+    border-color: #f5e6bd;
+}
+
+.status-recusado {
+    color: var(--red);
+    background: #fff0f1;
+    border-color: #f3d9dd;
+}
+
+/* Ações: editar, remover, aceitar e rejeitar */
+.actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    min-width: 170px;
+}
+
+.actions > form {
+    margin: 0;
+}
+
+.action-link,
+.delete-button,
+.approval-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 33px;
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--white);
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+        color 180ms ease,
+        background 180ms ease,
+        border-color 180ms ease;
+}
+
+.action-link {
+    color: #287da9;
+}
+
+.action-link:hover {
+    color: #176b9a;
+    background: #edf7fc;
+    border-color: #cde6f6;
+}
+
+.delete-button {
+    padding: 7px 10px;
+    color: var(--red);
+    border-color: #f2dadd;
+}
+
+.delete-button:hover {
+    background: #fff0f1;
+    border-color: #eabfc5;
+}
+
+.approval-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    width: 100%;
+    margin-top: 2px;
+}
+
+.approval-actions form {
+    margin: 0;
+}
+
+.approval-button {
+    min-height: 31px;
+    padding: 6px 9px;
+}
+
+.accept-button {
+    color: var(--green);
+    background: #e8f7ef;
+    border-color: #cdeedc;
+}
+
+.accept-button:hover {
+    background: #d3f0e0;
+    border-color: #a9ddbf;
+}
+
+.reject-button {
+    color: var(--red);
+    background: #fff0f1;
+    border-color: #f4d4d8;
+}
+
+.reject-button:hover {
+    background: #ffe0e3;
+    border-color: #eabac1;
+}
+
+/* Mensagens de feedback */
+.messages {
+    display: grid;
+    gap: 10px;
+}
+
+.message {
+    padding: 14px 17px;
+    line-height: 1.7;
+}
+
+/* Lista vazia */
+.empty-state {
+    padding: 68px 24px;
+}
+
+.empty-icon {
+    border: 1px solid #dceef9;
+    background: linear-gradient(145deg, #f0f9ff, #e7f4fd);
+    border-radius: 19px;
+}
+
+.empty-state h3 {
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.empty-state p {
+    line-height: 1.9;
+}
+
+/* Foco visível para teclado */
+a:focus-visible,
+button:focus-visible {
+    outline: 3px solid rgba(37, 151, 208, 0.30);
+    outline-offset: 3px;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+    .page {
+        padding-right: 24px;
+        padding-left: 24px;
+    }
+
+    .page-heading {
+        gap: 20px;
+    }
+
+    .stats {
+        gap: 14px;
+    }
+
+    .stat-card {
+        padding: 20px;
+    }
+
+    .content-heading {
+        padding: 23px;
+    }
+}
+
+/* Telemóveis */
+@media (max-width: 560px) {
+    .page {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+    .topbar {
+        min-height: 72px;
+        gap: 10px;
+    }
+
+    .brand {
+        font-size: 22px;
+    }
+
+    .back-link {
+        padding: 9px 10px;
+        font-size: 11px;
+    }
+
+    .page-heading {
+        padding-top: 30px;
+        padding-bottom: 24px;
+        gap: 19px;
+    }
+
+    .page-heading h1 {
+        font-size: 30px;
+        letter-spacing: -1.2px;
+    }
+
+    .page-heading .button {
+        width: 100%;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .stat-card {
+        padding: 16px 14px;
+        border-radius: 15px;
+    }
+
+    .stat-label {
+        font-size: 11px;
+    }
+
+    .stat-card strong {
+        margin-top: 12px;
+        font-size: 28px;
+    }
+
+    .stat-note {
+        font-size: 10px;
+    }
+
+    .content-card {
+        border-radius: 16px;
+    }
+
+    .content-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+        padding: 20px 17px;
+    }
+
+    .content-heading h2 {
+        font-size: 17px;
+    }
+
+    table {
+        min-width: 850px;
+    }
+
+    th,
+    td {
+        padding: 14px 13px;
+    }
+
+    .footer {
+        padding: 23px 0;
+    }
+}
+
+/* Reduzir animações quando solicitado pelo dispositivo */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+    }
+}
+
+
+/* Azul no título principal */
+.page-heading h1 {
+    color: #2597d0;
+}
+
+/* Botão Adicionar convidado */
+.page-heading .button-primary {
+    background: #2597d0;
+    color: #ffffff;
+    box-shadow: 0 5px 14px rgba(37, 151, 208, 0.18);
+}
+
+.page-heading .button-primary:hover {
+    background: #1d82b8;
+    box-shadow: 0 7px 18px rgba(37, 151, 208, 0.25);
+}
+
+/* Números dos cartões de estatísticas */
+.stat-card strong {
+    color: #2597d0;
+}
+
+.h2-title{
+    color: #2597d0;
+}
+
+
+/* =========================================
+   MELHORAR LEGIBILIDADE E NEGRITO
+   ========================================= */
+
+/* Título principal */
+.page-heading h1 {
+    color: #2597d0;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+/* Títulos dos cartões de estatísticas */
+.stat-label {
+    color: #303846;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.6;
+}
+
+/* Números das estatísticas */
+.stat-card strong {
+    color: #2597d0;
+    font-size: 35px;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+/* Descrição abaixo dos números */
+.stat-note {
+    color: #596579;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.7;
+}
+
+/* Título do cartão da lista de convidados */
+.content-heading h2 {
+    color: #202938;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.4;
+}
+
+/* Descrição do cartão */
+.content-heading p {
+    color: #566276;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.8;
+}
+
+/* Cabeçalhos das colunas da tabela */
+thead th {
+    color: #465368;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+}
+
+/* Conteúdo da tabela */
+tbody td {
+    color: #374151;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.7;
+}
+
+/* Nome do convidado */
+.guest-name {
+    color: #202938;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+/* Contactos */
+.contact {
+    color: #4b5565;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Estado de presença */
+.status {
+    font-size: 11px;
+    font-weight: 800;
+}
+
+/* Contador de convidados */
+.count-pill {
+    color: #176b9a;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+/* Botões de ação */
+.action-link,
+.delete-button,
+.approval-button {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* Mensagens */
+.message {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.8;
+}
+
+/* Melhor leitura em telemóveis */
+@media (max-width: 560px) {
+    .stat-label {
+        font-size: 12px;
+    }
+
+    .stat-card strong {
+        font-size: 30px;
+    }
+
+    .stat-note {
+        font-size: 11px;
+    }
+
+    .content-heading h2 {
+        font-size: 18px;
+    }
+
+    tbody td {
+        font-size: 13px;
+    }
+}
+
+
+/* Formulário de convidados — refinamento visual */
+
+.form-container {
+    border-color: #e3eaf2;
+    border-radius: 22px;
+    box-shadow: 0 12px 36px rgba(20, 29, 50, 0.055);
+}
+
+.form-container h1 {
+    color: #2597d0;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.25;
+}
+
+.form-group {
+    gap: 9px;
+}
+
+.form-group label {
+    color: #303846;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.form-control {
+    min-height: 48px;
+    padding: 12px 14px;
+    border: 1px solid #dce4ed;
+    border-radius: 11px;
+    background-color: #fbfcfe;
+    color: #242832;
+    font-size: 13px;
+    font-weight: 500;
+    transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        background-color 180ms ease;
+}
+
+.form-control::placeholder {
+    color: #929baa;
+    font-weight: 400;
+}
+
+.form-control:hover {
+    border-color: #b8d6ec;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #2597d0;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(37, 151, 208, 0.12);
+}
+
+select.form-control {
+    cursor: pointer;
+}
+
+.form-group .field-error,
+.form-errors {
+    color: #c63d4f;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.form-actions {
+    gap: 12px;
+    padding-top: 20px;
+}
+
+.form-actions .button-primary {
+    background: #2597d0;
+    color: #ffffff;
+    box-shadow: 0 5px 14px rgba(37, 151, 208, 0.16);
+}
+
+.form-actions .button-primary:hover {
+    background: #1d82b8;
+}
+
+.form-actions .button-secondary {
+    background: #ffffff;
+    border-color: #dce4ed;
+    color: #3d4756;
+}
+
+.form-actions .button-secondary:hover {
+    background: #f5f9fd;
+    border-color: #b8d6ec;
+}
+
+@media (max-width: 560px) {
+    .form-container {
+        padding: 23px 18px;
+        border-radius: 17px;
+    }
+
+    .form-group label {
+        font-size: 12px;
+    }
+
+    .form-control {
+        min-height: 46px;
+    }
 }
